@@ -50,16 +50,19 @@ fun IdeaFrame.test_quick_java_doc_command()
 
         waitFor { heavyWeightWindows().size == 1 }
         val all_text = heavyWeightWindows()[0].find(CommonContainerFixture::class.java,
-                                                    byXpath("//div[@class='JEditorPane']"),
+                                                    byXpath("//div[@class='DocumentationHintEditorPane']"),
                                                     Duration.ofSeconds(5))
             .findAllText()
         var found_it = 0
         for(i in all_text.indices)
         {
-            if((found_it == 0) && all_text[i].text.contains("public interface")) found_it++;
-            if((found_it == 1) && all_text[i].text.contains("SuppressWarnings")) found_it++;
+            if((found_it == 0) && all_text[i].text.contains("public")) found_it++;
+            if((found_it == 1) && all_text[i].text.contains("interface")) found_it++;
+            if((found_it == 2) && all_text[i].text.contains("SuppressWarnings")) found_it++;
+            if((found_it == 3) && all_text[i].text.contains("extends")) found_it++;
+            if((found_it == 4) && all_text[i].text.contains("annotation.Annotation")) found_it++;
         }
 
-        assert(found_it == 2)
+        assert(found_it == 5)
     }
 }
