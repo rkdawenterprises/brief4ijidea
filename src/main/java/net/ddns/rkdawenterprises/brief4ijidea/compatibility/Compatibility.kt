@@ -26,7 +26,7 @@
 package net.ddns.rkdawenterprises.brief4ijidea.compatibility
 
 import com.intellij.openapi.editor.Editor
-import com.intellij.util.SystemProperties.isTrueSmoothScrollingEnabled
+import com.intellij.openapi.editor.EditorCoreUtil.isTrueSmoothScrollingEnabled
 import java.awt.Rectangle
 
 fun get_editor_content_visible_area(editor: Editor): Rectangle
