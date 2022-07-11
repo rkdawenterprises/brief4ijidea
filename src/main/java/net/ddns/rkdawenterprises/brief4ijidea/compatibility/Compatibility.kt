@@ -25,6 +25,9 @@
 
 package net.ddns.rkdawenterprises.brief4ijidea.compatibility
 
+import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.ex.ActionUtil
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.EditorCoreUtil.isTrueSmoothScrollingEnabled
 import java.awt.Rectangle
@@ -35,3 +38,10 @@ fun get_editor_content_visible_area(editor: Editor): Rectangle
     return if(isTrueSmoothScrollingEnabled()) model.visibleAreaOnScrollingFinished else model.visibleArea;
 }
 
+fun perform_action_dumb_aware_with_callbacks(an_action: AnAction,
+                                             an_action_event: AnActionEvent)
+{
+    ActionUtil.performActionDumbAwareWithCallbacks(an_action,
+                                                   an_action_event,
+                                                   an_action_event.dataContext);
+}
