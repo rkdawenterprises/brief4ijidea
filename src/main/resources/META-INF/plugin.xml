@@ -1,18 +1,1 @@
-<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
-<idea-plugin>
-    <id>com.github.rkdawenterprises.brief4ijidea</id>
-    <name>brief4ijidea</name>
-    <vendor>rkdawenterprises</vendor>
-
-    <depends>com.intellij.modules.platform</depends>
-
-    <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.rkdawenterprises.brief4ijidea.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.rkdawenterprises.brief4ijidea.services.MyProjectService"/>
-    </extensions>
-
-    <applicationListeners>
-        <listener class="com.github.rkdawenterprises.brief4ijidea.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
-</idea-plugin>
+../../../../../brief4ijidea_common/src/main/resources/META-INF/plugin.xml
