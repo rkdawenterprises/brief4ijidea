@@ -1,1 +1,116 @@
-../../../../../../../../../brief4ijidea_common/src/main/java/net/ddns/rkdawenterprises/brief4ijidea/actions/Exit_action.java
+/*
+ * Copyright (c) 2019-2022 RKDAW Enterprises and Ralph Williamson
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package net.ddns.rkdawenterprises.brief4ijidea.actions;
+
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.intellij.openapi.fileEditor.impl.EditorComposite;
+import com.intellij.openapi.fileEditor.impl.EditorWithProviderComposite;
+import com.intellij.openapi.fileEditor.impl.EditorsSplitters;
+import com.intellij.openapi.fileEditor.impl.FileEditorManagerImpl;
+import com.intellij.openapi.project.impl.ProjectImpl;
+import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.vfs.newvfs.impl.VirtualFileImpl;
+import com.intellij.psi.PsiFile;
+import net.ddns.rkdawenterprises.brief4ijidea.State_component;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import static net.ddns.rkdawenterprises.brief4ijidea.MiscellaneousKt.do_action;
+
+@SuppressWarnings({ "ComponentNotRegistered", "unused" })
+public class Exit_action
+        extends Plugin_action
+{
+    public Exit_action( String text,
+                        String description )
+    {
+        super( text,
+               description );
+    }
+
+    /**
+     * Implement this method to provide your action handler.
+     *
+     * @param e Carries information on the invocation place
+     */
+    @Override
+    public void actionPerformed( @NotNull AnActionEvent e )
+    {
+        /// If unable to determine file modification status, ask to save anyway.
+        boolean is_modified = true;
+        String file_name = null;
+
+        final ProjectImpl project = (ProjectImpl)e.getData( CommonDataKeys.PROJECT );
+        final PsiFile a_PSI_file = e.getData( CommonDataKeys.PSI_FILE );
+        if( ( project != null ) && ( a_PSI_file != null ) )
+        {
+            final VirtualFileImpl virtual_file = (VirtualFileImpl)a_PSI_file.getVirtualFile();
+            if( virtual_file != null )
+            {
+                file_name = virtual_file.getName();
+                if( !is_file_modified( project,
+                                       virtual_file ) ) is_modified = false;
+            }
+        }
+
+        if( is_modified )
+        {
+            String message_file_name = ( file_name != null ? file_name : net.ddns.rkdawenterprises.brief4ijidea.Localized_messages.message( "dialog.message.file" ) );
+            if( Messages.showYesNoDialog( net.ddns.rkdawenterprises.brief4ijidea.Localized_messages.message( "dialog.message.write.changes.to.before.closing.if.you.want.them.externally.accessible", message_file_name ),
+                                          net.ddns.rkdawenterprises.brief4ijidea.Localized_messages.message( "dialog.title.write.changes" ),
+                                          Messages.getQuestionIcon() ) == Messages.YES )
+            {
+                do_action( "SaveDocument", e );
+            }
+        }
+
+        if( State_component.get_instance()
+                           .get_exit_only_closes_editor() )
+        {
+            do_action( "CloseEditor", e );
+        }
+        else
+        {
+            do_action( "Exit", e );
+        }
+    }
+
+    public static boolean is_file_modified( ProjectImpl project,
+                                            VirtualFileImpl file )
+    {
+        FileEditorManagerImpl file_editor_manager = (FileEditorManagerImpl)FileEditorManager.getInstance( project );
+        List<EditorComposite> result = new ArrayList<>();
+        Set<EditorsSplitters> all = file_editor_manager.getAllSplitters();
+        for( EditorsSplitters each : all )
+        {
+            result.addAll( each.getAllComposites( file ) );
+        }
+
+        boolean modified = false;
+        for( EditorComposite composite : result )
+        {
+            modified |= composite.isModified();
+        }
+
+        return modified;
+    }
+}
