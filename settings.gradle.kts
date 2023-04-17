@@ -1,1 +1,1 @@
-../brief4ijidea_common/settings.gradle.kts
+rootProject.name = "brief4ijidea"

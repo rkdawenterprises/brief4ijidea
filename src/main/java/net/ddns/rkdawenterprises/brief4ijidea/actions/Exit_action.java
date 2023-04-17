@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static net.ddns.rkdawenterprises.brief4ijidea.MiscellaneousKt.do_action;
+import static net.ddns.rkdawenterprises.brief4ijidea.Miscellaneous.do_action;
 
 @SuppressWarnings({ "ComponentNotRegistered", "unused" })
 public class Exit_action

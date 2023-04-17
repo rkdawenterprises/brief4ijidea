@@ -1,1 +1,397 @@
-../../../../../brief4ijidea_common/src/main/resources/keymaps/Brief.xml
+
+<!--
+  ~ Copyright (c) 2019-2022 RKDAW Enterprises and Ralph Williamson
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<keymap version="1" name="Brief" parent="$default">
+  <!---->
+  <!-- This file is parsed by the Actions Component to create the keymap handler associations. -->
+  <!---->
+  <!-- Some commands don't match original Brief functionality "to the letter", but are close enough. -->
+  <!-- And some commands are not currently implemented. -->
+  <!---->
+  <!-- Note: -->
+  <!--     * Any key modifier must be in lower case and the key itself must be in upper case. -->
+  <!--       The modifier is one of "control", "alt", or "shift". -->
+  <!--       Keys are the standard "VK_<key>" without the "VK_" part. -->
+  <!--     * The comment node immediately prior to the action node is used for the textual -->
+  <!--       information of the command. -->
+  <!--     * The action ID, with the first letter capitalized and "_action" appended, is assumed -->
+  <!--       to be the handler class name. -->
+  <!--       So for instance, for the action ID "net.ddns.rkdawenterprises.brief4ijidea.actions.help_menu" -->
+  <!--       the handler class name is "net.ddns.rkdawenterprises.brief4ijidea.actions.Help_menu_action". -->
+  <!---->
+
+  <!-- Help and Undo/Redo -->
+
+  <!--  Command: Help. Description: Open general help menu. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.help_menu">
+    <keyboard-shortcut first-keystroke="alt H"/>
+  </action>
+
+  <!--  Command: Quick Java Doc. Description: Show contextual documentation popup.  -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.quick_java_doc">
+    <keyboard-shortcut first-keystroke="control H"/>
+  </action>
+
+  <!--  Command: External Java Doc. Description: Open browser for documentation (TODO: Not working). -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.external_java_doc">
+    <keyboard-shortcut first-keystroke="shift control H"/>
+  </action>
+
+  <!--  Command: Undo. Description: Reverses the effect of any typing or commands that modified an open file. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.undo">
+    <keyboard-shortcut first-keystroke="alt U"/>
+    <keyboard-shortcut first-keystroke="MULTIPLY"/>
+  </action>
+
+  <!--  Command: Redo. Description: Reverses the effect of commands that have been undone. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.redo">
+    <keyboard-shortcut first-keystroke="control U"/>
+  </action>
+
+  <!-- Saving and Exiting -->
+
+  <!--  Command: Change output file. Description: Changes the output file name for the current buffer. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.change_output_file">
+    <keyboard-shortcut first-keystroke="alt O" />
+  </action>
+
+  <!--  Command: Write. Description: Writes the current buffer to disk. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.write">
+    <keyboard-shortcut first-keystroke="alt W" />
+  </action>
+
+  <!--  Command: Exit. Description: Exits from the current editor with prompt to write. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.exit">
+    <keyboard-shortcut first-keystroke="alt X"/>
+  </action>
+
+  <!--  Command: Write all and exit. Description: Writes any modified buffers and exits without prompting. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.write_all_and_exit">
+    <keyboard-shortcut first-keystroke="control X"/>
+  </action>
+
+  <!-- Cursor Movement -->
+
+  <!--  Command: Beginning of line. Description: Places the cursor at column 1 of the current line, window, or file. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.beginning_of_line">
+    <keyboard-shortcut first-keystroke="HOME"/>
+  </action>
+
+  <!--  Command: End of line. Description: Places the cursor at the last valid character of the current line, window, or file. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.end_of_line">
+    <keyboard-shortcut first-keystroke="END"/>
+  </action>
+
+  <!--  Command: Top of buffer. Description: Moves the cursor to the first character of the buffer. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.top_of_buffer">
+    <keyboard-shortcut first-keystroke="control PAGE_UP"/>
+  </action>
+
+  <!--  Command: End of buffer. Description: Moves the cursor to the last character in the buffer. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.end_of_buffer">
+    <keyboard-shortcut first-keystroke="control PAGE_DOWN"/>
+  </action>
+
+  <!--  Command: Top of window. Description: Moves the cursor to the top line of the current window, retaining the column position. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.top_of_window">
+    <keyboard-shortcut first-keystroke="control HOME"/>
+  </action>
+
+  <!--  Command: End of window. Description: Moves the cursor to the last line of the current window, retaining the column position. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.end_of_window">
+    <keyboard-shortcut first-keystroke="control END"/>
+  </action>
+
+  <!--  Command: Left side of window. Description: Moves the cursor to the left side of the window. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.left_side_of_window">
+    <keyboard-shortcut first-keystroke="shift HOME"/>
+  </action>
+
+  <!--  Command: Right side of window. Description: Moves the cursor to the right side of the window, regardless of the length of the line. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.right_side_of_window">
+    <keyboard-shortcut first-keystroke="shift END"/>
+  </action>
+
+  <!--  Command: Next word. Description: Moves the cursor to the first character of the next word. -->
+      <!-- Existing "control RIGHT" is close enough... -->
+
+  <!--  Command: Previous word. Description: Moves the cursor to the first character of the previous word. -->
+      <!-- Existing "control LEFT" is close enough... -->
+
+  <!--  Command: Scroll buffer down in window. Description: Moves the buffer, if possible, down one line in the window, keeping the cursor on the same line. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.scroll_buffer_down_in_window">
+    <keyboard-shortcut first-keystroke="control D"/>
+  </action>
+
+  <!--  Command: Scroll buffer up in window. Description: Moves the buffer, if possible, up one line in the window, keeping the cursor on the same line. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.scroll_buffer_up_in_window">
+    <keyboard-shortcut first-keystroke="control E"/>
+  </action>
+
+  <!--  Command: Go to line. Description: Moves the cursor to the specified line number. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.goto_line">
+    <keyboard-shortcut first-keystroke="alt G"/>
+  </action>
+
+  <!-- Editing text -->
+
+  <!--  Command: Delete line. Description: Deletes the entire current line. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.delete_line">
+    <keyboard-shortcut first-keystroke="alt D"/>
+  </action>
+
+  <!--  Command: Delete next word. Description: Deletes from the cursor position to the start of the next word. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.delete_next_word">
+    <keyboard-shortcut first-keystroke="alt BACK_SPACE"/>
+  </action>
+
+  <!--  Command: Delete previous word. Description: Deletes from the cursor position to the beginning of the previous word. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.delete_previous_word">
+    <keyboard-shortcut first-keystroke="control BACK_SPACE"/>
+  </action>
+
+  <!--  Command: Delete to beginning of line. Description: Deletes all characters before the cursor to the beginning of the line. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.delete_to_beginning_of_line">
+    <keyboard-shortcut first-keystroke="control K"/>
+  </action>
+
+  <!--  Command: Delete to end of line. Description: Deletes all characters from the current position to the end of the line. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.delete_to_end_of_line">
+    <keyboard-shortcut first-keystroke="alt K"/>
+  </action>
+
+  <!--  Command: Insert mode toggle. Description: Switches between insert mode and overstrike mode. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.insert_mode_toggle">
+    <keyboard-shortcut first-keystroke="alt I"/>
+  </action>
+
+  <!--  Command: Open line. Description: Inserts a blank line after the current line and places the cursor on the first column of this new line. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.open_line">
+    <keyboard-shortcut first-keystroke="control ENTER"/>
+  </action>
+
+  <!-- Blocks and marks -->
+
+  <!--  Command: Mark. Description: Starts normal marking mode. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.mark">
+    <keyboard-shortcut first-keystroke="alt M"/>
+  </action>
+
+  <!--  Command: Line mark. Description: Starts marking a line at a time. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.line_mark">
+    <keyboard-shortcut first-keystroke="alt L"/>
+  </action>
+
+  <!--  Command: Column mark. Description: Starts marking a rectangular block. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.column_mark">
+    <keyboard-shortcut first-keystroke="alt C"/>
+  </action>
+
+  <!--  Command: Drop bookmark 10. Description: Drops a numbered bookmark at the current position. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.drop_bookmark_10">
+    <keyboard-shortcut first-keystroke="alt 0"/>
+  </action>
+
+  <!--  Command: Drop bookmark 1. Description: Drops a numbered bookmark at the current position. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.drop_bookmark_1">
+    <keyboard-shortcut first-keystroke="alt 1"/>
+  </action>
+
+  <!--  Command: Drop bookmark 2. Description: Drops a numbered bookmark at the current position. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.drop_bookmark_2">
+    <keyboard-shortcut first-keystroke="alt 2"/>
+  </action>
+
+  <!--  Command: Drop bookmark 3. Description: Drops a numbered bookmark at the current position. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.drop_bookmark_3">
+    <keyboard-shortcut first-keystroke="alt 3"/>
+  </action>
+
+  <!--  Command: Drop bookmark 4. Description: Drops a numbered bookmark at the current position. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.drop_bookmark_4">
+    <keyboard-shortcut first-keystroke="alt 4"/>
+  </action>
+
+  <!--  Command: Drop bookmark 5. Description: Drops a numbered bookmark at the current position. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.drop_bookmark_5">
+    <keyboard-shortcut first-keystroke="alt 5"/>
+  </action>
+
+  <!--  Command: Drop bookmark 6. Description: Drops a numbered bookmark at the current position. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.drop_bookmark_6">
+    <keyboard-shortcut first-keystroke="alt 6"/>
+  </action>
+
+  <!--  Command: Drop bookmark 7. Description: Drops a numbered bookmark at the current position. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.drop_bookmark_7">
+    <keyboard-shortcut first-keystroke="alt 7"/>
+  </action>
+
+  <!--  Command: Drop bookmark 8. Description: Drops a numbered bookmark at the current position. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.drop_bookmark_8">
+    <keyboard-shortcut first-keystroke="alt 8"/>
+  </action>
+
+  <!--  Command: Drop bookmark 9. Description: Drops a numbered bookmark at the current position. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.drop_bookmark_9">
+    <keyboard-shortcut first-keystroke="alt 9"/>
+  </action>
+
+  <!--  Command: Jump to bookmark 10. Description: Moves the cursor to the specified bookmark number. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.jump_to_bookmark_10">
+    <keyboard-shortcut first-keystroke="alt J" second-keystroke="0"/>
+  </action>
+
+  <!--  Command: Jump to bookmark 1. Description: Moves the cursor to the specified bookmark number. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.jump_to_bookmark_1">
+    <keyboard-shortcut first-keystroke="alt J" second-keystroke="1"/>
+  </action>
+
+  <!--  Command: Jump to bookmark 2. Description: Moves the cursor to the specified bookmark number. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.jump_to_bookmark_2">
+    <keyboard-shortcut first-keystroke="alt J" second-keystroke="2"/>
+  </action>
+
+  <!--  Command: Jump to bookmark 3. Description: Moves the cursor to the specified bookmark number. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.jump_to_bookmark_3">
+    <keyboard-shortcut first-keystroke="alt J" second-keystroke="3"/>
+  </action>
+
+  <!--  Command: Jump to bookmark 4. Description: Moves the cursor to the specified bookmark number. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.jump_to_bookmark_4">
+    <keyboard-shortcut first-keystroke="alt J" second-keystroke="4"/>
+  </action>
+
+  <!--  Command: Jump to bookmark 5. Description: Moves the cursor to the specified bookmark number. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.jump_to_bookmark_5">
+    <keyboard-shortcut first-keystroke="alt J" second-keystroke="5"/>
+  </action>
+
+  <!--  Command: Jump to bookmark 6. Description: Moves the cursor to the specified bookmark number. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.jump_to_bookmark_6">
+    <keyboard-shortcut first-keystroke="alt J" second-keystroke="6"/>
+  </action>
+
+  <!--  Command: Jump to bookmark 7. Description: Moves the cursor to the specified bookmark number. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.jump_to_bookmark_7">
+    <keyboard-shortcut first-keystroke="alt J" second-keystroke="7"/>
+  </action>
+
+  <!--  Command: Jump to bookmark 8. Description: Moves the cursor to the specified bookmark number. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.jump_to_bookmark_8">
+    <keyboard-shortcut first-keystroke="alt J" second-keystroke="8"/>
+  </action>
+
+  <!--  Command: Jump to bookmark 9. Description: Moves the cursor to the specified bookmark number. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.jump_to_bookmark_9">
+    <keyboard-shortcut first-keystroke="alt J" second-keystroke="9"/>
+  </action>
+
+  <!--  Command: Open bookmarks menu. Description: Opens a dialog to select a bookmark to jump to, or delete them. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.open_bookmarks_menu">
+    <keyboard-shortcut first-keystroke="alt B"/>
+  </action>
+
+  <!-- Scrap -->
+
+  <!--  Command: Copy to scrap. Description: Copies the block of marked characters to the scrap. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.copy_to_scrap">
+    <keyboard-shortcut first-keystroke="ADD"/>
+  </action>
+
+  <!--  Command: Cut to scrap. Description: Deletes the block of marked characters to the scrap. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.cut_to_scrap">
+    <keyboard-shortcut first-keystroke="SUBTRACT"/>
+  </action>
+
+  <!--  Command: Paste from scrap. Description: Inserts the current scrap buffer into the current buffer. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.paste_from_scrap">
+    <keyboard-shortcut first-keystroke="INSERT"/>
+  </action>
+
+  <!--  Command: Paste from history. Description: Opens a dialog to paste an item from scrap history. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.paste_from_history">
+    <keyboard-shortcut first-keystroke="shift INSERT"/>
+  </action>
+
+  <!--  Command: Swap mark with scrap. Description: Swaps the currently marked block with the scrap. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.swap_mark_with_scrap">
+    <keyboard-shortcut first-keystroke="alt INSERT"/>
+  </action>
+
+  <!-- Windows -->
+
+  <!--  Command: Line to top of window. Description: Scrolls the buffer, moving the current line to the top of the window. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.line_to_top_of_window">
+    <keyboard-shortcut first-keystroke="control T"/>
+  </action>
+
+  <!--  Command: Center line in window. Description: Scrolls the buffer, moving the current line to the center of the current window. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.center_line_in_window">
+    <keyboard-shortcut first-keystroke="control C"/>
+  </action>
+
+  <!--  Command: Line to bottom of window. Description: Scrolls the buffer, moving the current line to the bottom of the window. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.line_to_bottom_of_window">
+    <keyboard-shortcut first-keystroke="control B"/>
+  </action>
+
+  <!--  Command: Quick window switch. Description: Changes windows according to the arrow key that points to the window. -->
+    <!-- Current "alt LEFT" and "alt RIGHT" currently changes editor windows. PGE... -->
+
+  <!-- Search and translate -->
+      <!-- TODO: Investigate LOE to implement original Brief search and translate. Currently just opens the existing dialog. -->
+
+  <!--  Command: Search forward. Description: Searches forward from the current position to the end of the current buffer for the given pattern. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.search_forward">
+    <keyboard-shortcut first-keystroke="alt S" />
+    <keyboard-shortcut first-keystroke="F5" />
+  </action>
+
+  <!--  Command: Search backward. Description: Searches backward from the current position to the beginning of the current buffer for the given pattern. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.search_backward">
+    <keyboard-shortcut first-keystroke="alt F5" />
+  </action>
+
+  <!--  Command: Search again. Description: Searches either forward or backward for the last given pattern, depending on the direction of the previous search. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.search_again">
+    <keyboard-shortcut first-keystroke="shift F5" />
+  </action>
+
+  <!--  Command: Translate forward. Description: Searches for the specified pattern from the current position to the end of the buffer, replacing it with the given string. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.translate_forward">
+    <keyboard-shortcut first-keystroke="alt T" />
+    <keyboard-shortcut first-keystroke="F6" />
+  </action>
+
+  <!--  Command: Translate backward. Description: Searches for the specified pattern from the current position to the beginning of the buffer, replacing it with the given string. -->
+  <!-- See TODO above...-->
+
+  <!--  Command: Translate again. Description: Searches either forward or backward for the last given pattern, depending on the direction of the previous translation, replacing it with the given string. -->
+  <!-- See TODO above...-->
+
+  <!--  Command: Go to Declaration. Description: Since "control B" is remapped, and this command is used so much, giving it an alternate. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.goto_declaration">
+    <keyboard-shortcut first-keystroke="F12"/>
+  </action>
+
+  <!--  Command: Repeat. Description: Opens a dialog to repeat the requested command, or insert the requested char/string into the editor, the given number of times. -->
+  <!-- TODO: This command is a "work in progress"... -->
+  <!-- <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.repeat"> -->
+  <!--   <keyboard-shortcut first-keystroke="control R"/> -->
+  <!-- </action> -->
+</keymap>

@@ -1,1 +1,132 @@
-../../../../../brief4ijidea_common/src/main/resources/icons/brief4ijidea_disabled.svg
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  - Copyright (c) 2019-2022 RKDAW Enterprises and Ralph Williamson
+  -
+  - Licensed under the Apache License, Version 2.0 (the "License");
+  - you may not use this file except in compliance with the License.
+  - You may obtain a copy of the License at
+  -
+  -     http://www.apache.org/licenses/LICENSE-2.0
+  -
+  - Unless required by applicable law or agreed to in writing, software
+  - distributed under the License is distributed on an "AS IS" BASIS,
+  - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  - See the License for the specific language governing permissions and
+  - limitations under the License.
+  -->
+
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="16"
+   height="16"
+   viewBox="0 0 10.583336 10.583336"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="brief4ijidea_disabled_16x16.svg"
+   inkscape:export-filename="/home/rwilliamson/Pictures/brief4ijidea_disabled_16x16.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:document-units="px"
+     showgrid="true"
+     width="47px"
+     inkscape:showpageshadow="false"
+     inkscape:zoom="17.75"
+     inkscape:cx="17.633803"
+     inkscape:cy="8.6760563"
+     inkscape:window-width="1581"
+     inkscape:window-height="843"
+     inkscape:window-x="17"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="g47093"
+     showguides="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2980"
+       empspacing="10" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="background"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="blue"
+     style="display:inline">
+    <rect
+       style="fill:#808080;fill-opacity:1;fill-rule:evenodd;stroke-width:0.293981"
+       id="rect904"
+       width="10.583336"
+       height="10.583336"
+       x="0"
+       y="-5.7441717e-08"
+       ry="0" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="orange"
+     style="display:inline">
+    <rect
+       style="fill:#333333;fill-opacity:1;stroke-width:0.293981"
+       id="rect2997"
+       width="3.2337964"
+       height="2.9398155"
+       x="0"
+       y="-5.7441717e-08" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="g47093"
+     inkscape:label="BRIEF"
+     style="display:inline">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:4.03063px;line-height:1.25;font-family:Cantarell;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#333333;stroke-width:0.37787"
+       x="1.399495"
+       y="5.6639037"
+       id="text47091"
+       transform="scale(0.77799348,1.2853578)"><tspan
+         sodipodi:role="line"
+         id="tspan47089"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:4.03063px;font-family:Cantarell;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#333333;stroke-width:0.37787"
+         x="1.399495"
+         y="5.6639037">BRIEF</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="Emulator"
+     style="display:inline">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.72824px;line-height:1.25;font-family:Cantarell;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#333333;stroke-width:0.216029"
+       x="1.5358673"
+       y="9.8337364"
+       id="text53150"
+       transform="scale(1.0427707,0.9589836)"><tspan
+         sodipodi:role="line"
+         id="tspan12515"
+         x="1.5358673"
+         y="9.8337364"
+         style="stroke-width:0.216029">Emulator</tspan></text>
+  </g>
+</svg>
