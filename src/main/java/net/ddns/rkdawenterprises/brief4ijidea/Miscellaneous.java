@@ -22,7 +22,7 @@ import com.intellij.openapi.actionSystem.ex.ActionManagerEx;
 import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.actionSystem.impl.ActionManagerImpl;
 
-import static net.ddns.rkdawenterprises.brief4ijidea.Actions_promoterKt.should_promote;
+import static net.ddns.rkdawenterprises.brief4ijidea.Actions_promoter.should_promote;
 
 @SuppressWarnings({ "unused", "CommentedOutCode" })
 public class Miscellaneous
