@@ -24,7 +24,6 @@ import com.intellij.openapi.actionSystem.impl.ActionManagerImpl;
 
 import static net.ddns.rkdawenterprises.brief4ijidea.Actions_promoter.should_promote;
 
-@SuppressWarnings({ "unused", "CommentedOutCode" })
 public class Miscellaneous
 {
     public static void do_action( String action_ID,

@@ -2,6 +2,11 @@
 
 # Brief Emulator for Intellij IDEA
 
+## [1.0.8] - 2023-04-19
+### Fixed
+- Fixed issue with action promoter not promoting insert key commands properly.
+- Fixed issue with status bar document information null pointer.
+
 ## [1.0.7] - 2023-04-15
 ### Changed
 - Just a version change to upload support for 222 platform.
