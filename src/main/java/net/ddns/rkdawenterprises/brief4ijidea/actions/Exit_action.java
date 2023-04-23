@@ -20,10 +20,9 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.impl.EditorComposite;
-import com.intellij.openapi.fileEditor.impl.EditorWithProviderComposite;
 import com.intellij.openapi.fileEditor.impl.EditorsSplitters;
 import com.intellij.openapi.fileEditor.impl.FileEditorManagerImpl;
-import com.intellij.openapi.project.impl.ProjectImpl;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.newvfs.impl.VirtualFileImpl;
 import com.intellij.psi.PsiFile;
@@ -59,7 +58,7 @@ public class Exit_action
         boolean is_modified = true;
         String file_name = null;
 
-        final ProjectImpl project = (ProjectImpl)e.getData( CommonDataKeys.PROJECT );
+        final Project project = e.getData( CommonDataKeys.PROJECT );
         final PsiFile a_PSI_file = e.getData( CommonDataKeys.PSI_FILE );
         if( ( project != null ) && ( a_PSI_file != null ) )
         {
@@ -94,7 +93,7 @@ public class Exit_action
         }
     }
 
-    public static boolean is_file_modified( ProjectImpl project,
+    public static boolean is_file_modified( Project project,
                                             VirtualFileImpl file )
     {
         FileEditorManagerImpl file_editor_manager = (FileEditorManagerImpl)FileEditorManager.getInstance( project );

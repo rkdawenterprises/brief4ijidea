@@ -32,12 +32,9 @@ import com.intellij.openapi.editor.EditorCoreUtil
 import com.intellij.openapi.editor.LogicalPosition
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DoNotAskOption
-import com.intellij.openapi.ui.messages.MessagesService
-import com.intellij.util.ui.UIUtil
-import java.awt.Component
+import com.intellij.openapi.ui.MessageDialogBuilder.Companion.okCancel
 import java.awt.Rectangle
 import java.util.*
-import javax.swing.Icon
 
 fun to_nearest_visual_line_base(editor: Editor,
                                 y: Int): Int
@@ -242,85 +239,12 @@ fun virtual_space_setting_warning(editor: Editor)
     }
 }
 
-fun warning_message(title: String?,
+fun warning_message(title: String,
                     message: String,
-                    option: DoNotAskOption.Adapter? = null): String?
+                    option: DoNotAskOption.Adapter? = null): Boolean
 {
-    val button_name = "OK";
-
-    return Message(title,
-        message)
-        .buttons(button_name)
-        .default_button(button_name)
-        .focused_button(button_name)
-        .do_not_ask(option)
-        .as_warning()
-        .show();
-}
-
-class Message internal constructor(private val title: String?,
-                                   private val message: String)
-{
-    private var m_icon: Icon? = null;
-    private var m_do_not_ask_option: DoNotAskOption? = null;
-    private lateinit var m_buttons: List<String>;
-    private var m_default_button_name: String? = null;
-    private var m_focused_button_name: String? = null;
-
-    fun icon(icon: Icon?): Message
-    {
-        m_icon = icon;
-        return this;
-    }
-
-    fun as_warning(): Message
-    {
-        m_icon = UIUtil.getWarningIcon();
-        return this;
-    }
-
-    fun do_not_ask(option: DoNotAskOption.Adapter?): Message
-    {
-        m_do_not_ask_option = option;
-        return this;
-    }
-
-    fun buttons(vararg button_names: String): Message
-    {
-        m_buttons = button_names.toList();
-        return this;
-    }
-
-    fun default_button(default_button_name: String): Message
-    {
-        m_default_button_name = default_button_name;
-        return this;
-    }
-
-    fun focused_button(focused_button_name: String): Message
-    {
-        m_focused_button_name = focused_button_name;
-        return this;
-    }
-
-    fun show(project: Project? = null,
-             parent_component: Component? = null): String?
-    {
-        val options = m_buttons.toTypedArray();
-        val default_option_index = m_buttons.indexOf(m_default_button_name);
-        val focused_option_index = m_buttons.indexOf(m_focused_button_name);
-        val result = MessagesService.getInstance()
-            .showMessageDialog(project = project,
-                parentComponent = parent_component,
-                message = message,
-                title = title,
-                options = options,
-                defaultOptionIndex = default_option_index,
-                focusedOptionIndex = focused_option_index,
-                icon = m_icon,
-                doNotAskOption = m_do_not_ask_option,
-                alwaysUseIdeaUI = true);
-
-        return if(result < 0) null else m_buttons[result];
-    }
+    return okCancel(title, message)
+        .doNotAsk(option)
+        .asWarning()
+        .guessWindowAndAsk();
 }
