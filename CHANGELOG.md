@@ -6,6 +6,8 @@
 ### Fixed
 - Fixed issue with action promoter not promoting insert key commands properly.
 - Fixed issue with status bar document information null pointer.
+- Changed dialog for compatibility.
+- Removed some references to internal API's.
 
 ## [1.0.7] - 2023-04-15
 ### Changed
