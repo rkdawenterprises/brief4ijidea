@@ -35,7 +35,6 @@ import com.intellij.openapi.wm.impl.status.EditorBasedWidget;
 import com.intellij.openapi.wm.impl.status.widget.StatusBarEditorBasedWidgetFactory;
 import com.intellij.openapi.wm.impl.status.widget.StatusBarWidgetSettings;
 import com.intellij.openapi.wm.impl.status.widget.StatusBarWidgetsManager;
-import com.intellij.ui.IconManager;
 import com.intellij.ui.awt.RelativePoint;
 import com.intellij.util.Consumer;
 import org.jetbrains.annotations.Nls;
@@ -106,7 +105,7 @@ public class Status_bar_icon_factory
      * You may need to recreate it if:
      * <ul>
      * <li>its availability has changed. See {@link #isAvailable(Project)}</li>
-     * <li>its visibility has changed. See {@link StatusBarWidgetSettings}</li>
+     * <li>its visibility has changed. See StatusBarWidgetSettings</li>
      * </ul>
      * <p>
      * To do this, you need to explicitly invoke {@link StatusBarWidgetsManager#updateWidget(StatusBarWidgetFactory)}
@@ -266,15 +265,11 @@ public class Status_bar_icon_factory
             if( State_component.enabled() && State_component.get_instance()
                                                             .get_initialized() )
             {
-                return IconManager.getInstance()
-                                  .getIcon( Localized_messages.message( "icons.brief4ijidea.svg" ),
-                                            Status_bar_widget.class );
+                return Icons.BRIEF4IJIDEA_ICON;
             }
             else
             {
-                return IconManager.getInstance()
-                                  .getIcon( Localized_messages.message( "icons.brief4ijidea.disabled.svg" ),
-                                            Status_bar_widget.class );
+                return Icons.BRIEF4IJIDEA_DISABLED_ICON;
             }
         }
 

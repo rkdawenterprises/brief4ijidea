@@ -6,10 +6,10 @@
 package net.ddns.rkdawenterprises.brief4ijidea.compatibility;
 
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.extensions.ExtensionPointName;
+//import com.intellij.openapi.extensions.ExtensionPointName;
 import com.intellij.openapi.project.Project;
-import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.ApiStatus;
+//import com.intellij.util.containers.ContainerUtil;
+//import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -31,7 +31,6 @@ public interface TypingActionsExtension {
    *
    * @param project       current project
    * @param editor        target editor
-   * @return
    */
   boolean isSuitableContext(@NotNull Project project, @NotNull Editor editor);
 
