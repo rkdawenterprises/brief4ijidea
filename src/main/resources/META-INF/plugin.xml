@@ -38,8 +38,10 @@
                                  instance="net.ddns.rkdawenterprises.brief4ijidea.Application_configurable"
                                  id="net.ddns.rkdawenterprises.brief4ijidea.Application_configurable"/>
 
-        <statusBarWidgetFactory implementation="net.ddns.rkdawenterprises.brief4ijidea.Status_bar_icon_factory"/>
-        <statusBarWidgetFactory implementation="net.ddns.rkdawenterprises.brief4ijidea.Status_bar_document_information_factory"/>
+        <statusBarWidgetFactory implementation="net.ddns.rkdawenterprises.brief4ijidea.Status_bar_icon_factory"
+                                id="Brief4ijidea_status_bar_brief_for_ij_idea_factory_ID"/>
+        <statusBarWidgetFactory implementation="net.ddns.rkdawenterprises.brief4ijidea.Status_bar_document_information_factory"
+                                id="Brief4ijidea_status_bar_document_information_factory_ID"/>
 
         <bundledKeymap file="Brief.xml"/>
 

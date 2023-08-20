@@ -152,8 +152,8 @@ tasks {
     }
 
     signPlugin {
-//        certificateChain.set(File(System.getenv("CERTIFICATE_CHAIN") ?: "/media/rwilliamson/AD38-6FA3/.keystore/intellij_marketplace/chain.crt").readText(Charsets.UTF_8))
-//        privateKey.set(File(System.getenv("PRIVATE_KEY") ?: "/media/rwilliamson/AD38-6FA3/.keystore/intellij_marketplace/private.pem").readText(Charsets.UTF_8))
+//        certificateChainFile.set(file(System.getenv("CERTIFICATE_CHAIN_FILE")))
+//        privateKeyFile.set(file(System.getenv("PRIVATE_KEY_FILE")))
         password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
     }
 

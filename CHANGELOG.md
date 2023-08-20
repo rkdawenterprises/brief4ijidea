@@ -2,11 +2,12 @@
 
 # Brief Emulator for Intellij IDEA
 
-## [1.0.9] - 2023-04-19
+## [1.0.9] - 2023-08-19
 ### Fixed
 - Fixed issue with drag and drop in line marking mode.
 ### Added
 - Added an icons holder class.
+- Added ID's for the statusBarWidgetFactory's.
 ### Changed
 - Dropped support for 222 platform.
 
