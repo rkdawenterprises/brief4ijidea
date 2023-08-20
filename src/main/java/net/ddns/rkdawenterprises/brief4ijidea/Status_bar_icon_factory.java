@@ -33,7 +33,6 @@ import com.intellij.openapi.wm.WindowManager;
 import com.intellij.openapi.wm.impl.status.EditorBasedStatusBarPopup;
 import com.intellij.openapi.wm.impl.status.EditorBasedWidget;
 import com.intellij.openapi.wm.impl.status.widget.StatusBarEditorBasedWidgetFactory;
-import com.intellij.openapi.wm.impl.status.widget.StatusBarWidgetSettings;
 import com.intellij.openapi.wm.impl.status.widget.StatusBarWidgetsManager;
 import com.intellij.ui.awt.RelativePoint;
 import com.intellij.util.Consumer;
@@ -105,7 +104,7 @@ public class Status_bar_icon_factory
      * You may need to recreate it if:
      * <ul>
      * <li>its availability has changed. See {@link #isAvailable(Project)}</li>
-     * <li>its visibility has changed. See StatusBarWidgetSettings</li>
+     * <li>its visibility has changed. See StatusBarWidgetSettings.</li>
      * </ul>
      * <p>
      * To do this, you need to explicitly invoke {@link StatusBarWidgetsManager#updateWidget(StatusBarWidgetFactory)}

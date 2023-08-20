@@ -36,7 +36,8 @@
 
         <applicationConfigurable parentId="editor"
                                  instance="net.ddns.rkdawenterprises.brief4ijidea.Application_configurable"
-                                 id="net.ddns.rkdawenterprises.brief4ijidea.Application_configurable"/>
+                                 id="net.ddns.rkdawenterprises.brief4ijidea.Application_configurable"
+                                 displayName="Brief Editor Emulator Settings"/>
 
         <statusBarWidgetFactory implementation="net.ddns.rkdawenterprises.brief4ijidea.Status_bar_icon_factory"
                                 id="Brief4ijidea_status_bar_brief_for_ij_idea_factory_ID"/>

@@ -46,7 +46,6 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.SingleRootFileViewProvider;
-import com.intellij.util.Producer;
 import com.intellij.util.text.CharArrayUtil;
 import net.ddns.rkdawenterprises.brief4ijidea.compatibility.TypingActionsExtension;
 import org.jetbrains.annotations.NotNull;
@@ -154,11 +153,11 @@ public class Paste_handler
     @Nullable
     private String getCopiedFqn(final DataContext context)
     {
-        @Nullable Producer<Transferable> supplier = PasteAction.TRANSFERABLE_PROVIDER.getData(context);
+        @Nullable Supplier<Transferable> supplier = PasteAction.TRANSFERABLE_PROVIDER.getData(context);
 
         if(supplier != null)
         {
-            Transferable transferable = supplier.produce();
+            Transferable transferable = supplier.get();
             if(transferable != null)
             {
                 try
@@ -176,23 +175,23 @@ public class Paste_handler
         return CopyPasteManager.getInstance().getContents(DataFlavor.stringFlavor);
     }
 
-    private Transferable getContentsToPasteToEditor(@Nullable Producer<? extends Transferable> producer)
+    private Transferable getContentsToPasteToEditor(@Nullable Supplier<? extends Transferable> supplier)
     {
-        if(producer == null)
+        if(supplier == null)
         {
             return CopyPasteManager.getInstance().getContents();
         }
         else
         {
-            return producer.produce();
+            return supplier.get();
         }
     }
 
     private void execute(@NotNull Editor editor,
                          DataContext dataContext,
-                         @Nullable Producer<? extends Transferable> producer)
+                         @Nullable Supplier<? extends Transferable> supplier)
     {
-        final Transferable transferable = getContentsToPasteToEditor(producer);
+        final Transferable transferable = getContentsToPasteToEditor(supplier);
         if(transferable == null)
         {
             return;

@@ -30,7 +30,6 @@ import com.intellij.openapi.wm.impl.status.EditorBasedStatusBarPopup;
 import com.intellij.openapi.wm.impl.status.EditorBasedWidget;
 import com.intellij.openapi.wm.impl.status.TextPanel;
 import com.intellij.openapi.wm.impl.status.widget.StatusBarEditorBasedWidgetFactory;
-import com.intellij.openapi.wm.impl.status.widget.StatusBarWidgetSettings;
 import com.intellij.openapi.wm.impl.status.widget.StatusBarWidgetsManager;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
@@ -170,7 +169,7 @@ public class Status_bar_document_information_factory
      * You may need to recreate it if:
      * <ul>
      * <li>its availability has changed. See {@link #isAvailable(Project)}</li>
-     * <li>its visibility has changed. See {@link StatusBarWidgetSettings}</li>
+     * <li>its visibility has changed. See StatusBarWidgetSettings.</li>
      * </ul>
      * <p>
      * To do this, you need to explicitly invoke {@link StatusBarWidgetsManager#updateWidget(StatusBarWidgetFactory)}

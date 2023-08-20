@@ -23,11 +23,7 @@ import javax.swing.*;
 public final class Icons
 {
     public static final Icon BRIEF4IJIDEA_ICON =
-//            IconManager.getInstance().getIcon("/icons/brief4ijidea.svg", Icons.class.getClassLoader());
-        IconManager.getInstance().getIcon( Localized_messages.message( "icons.brief4ijidea.svg" ),
-                                                                      Icons.class );
+            IconManager.getInstance().getIcon("/icons/brief4ijidea.svg", Icons.class.getClassLoader());
     public static final Icon BRIEF4IJIDEA_DISABLED_ICON =
-//            IconManager.getInstance().getIcon("/icons/brief4ijidea_disabled.svg", Icons.class.getClassLoader());
-        IconManager.getInstance().getIcon( Localized_messages.message( "icons.brief4ijidea.disabled.svg" ),
-                                                                      Icons.class );
+            IconManager.getInstance().getIcon("/icons/brief4ijidea_disabled.svg", Icons.class.getClassLoader());
 }
