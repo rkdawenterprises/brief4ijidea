@@ -129,13 +129,13 @@ fun editor_lost_focus(editor: Editor)
                            false)
 }
 
-fun toggle_marking_mode(editor: Editor)
+fun toggle_marking_mode(editor: Editor, is_noninclusive: Boolean = false)
 {
     Line_marking_component.stop_line_marking_mode(editor,
                                                   true)
     Column_marking_component.stop_column_marking_mode(editor,
                                                       true)
-    Marking_component.toggle_marking_mode(editor)
+    Marking_component.toggle_marking_mode(editor, is_noninclusive)
 }
 
 fun toggle_line_marking_mode(editor: Editor)

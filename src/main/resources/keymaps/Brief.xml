@@ -186,19 +186,24 @@
 
   <!-- Blocks and marks -->
 
-  <!--  Command: Mark. Description: Starts normal marking mode. -->
+  <!--  Command: Mark. Description: Toggle normal marking mode. -->
   <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.mark">
     <keyboard-shortcut first-keystroke="alt M"/>
   </action>
 
-  <!--  Command: Line mark. Description: Starts marking a line at a time. -->
+  <!--  Command: Line mark. Description: Toggle marking a line at a time. -->
   <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.line_mark">
     <keyboard-shortcut first-keystroke="alt L"/>
   </action>
 
-  <!--  Command: Column mark. Description: Starts marking a rectangular block. -->
+  <!--  Command: Column mark. Description: Toggle marking a rectangular block. -->
   <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.column_mark">
     <keyboard-shortcut first-keystroke="alt C"/>
+  </action>
+
+  <!--  Command: Noninclusive mark. Description: Toggle Noninclusive Mark mode. -->
+  <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.noninclusive_mark">
+    <keyboard-shortcut first-keystroke="alt A"/>
   </action>
 
   <!--  Command: Drop bookmark 10. Description: Drops a numbered bookmark at the current position. -->
