@@ -105,7 +105,7 @@ public class End_of_line_action
                         ( caret_visual_position.line == visible_area_bottom_end_of_line_position.line ) );
         if( at_window_end )
         {
-            if( Marking_component.is_marking_mode() )
+            if( Marking_component.INSTANCE.is_marking_mode() )
             {
                 do_action( "EditorTextEndWithSelection", e );
                 return;
@@ -134,7 +134,7 @@ public class End_of_line_action
                         ( caret_logical_position.line != last_line_number ) );
         if( at_line_end )
         {
-            if( Marking_component.is_marking_mode() )
+            if( Marking_component.INSTANCE.is_marking_mode() )
             {
                 do_action( "EditorMoveToPageBottomWithSelection", e );
                 return;
@@ -155,7 +155,7 @@ public class End_of_line_action
             return;
         }
 
-        if( Marking_component.is_marking_mode() )
+        if( Marking_component.INSTANCE.is_marking_mode() )
         {
             do_action( "EditorLineEndWithSelection", e );
             return;

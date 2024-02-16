@@ -32,7 +32,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys
 import net.ddns.rkdawenterprises.brief4ijidea.toggle_marking_mode
 
 @Suppress("unused")
-class Mark_action
+class Noninclusive_mark_action
     (text: String?,
      description: String?) : Plugin_action(text,
                                            description)
@@ -47,6 +47,6 @@ class Mark_action
         val editor = e.getData(CommonDataKeys.EDITOR)
             ?: return
 
-        toggle_marking_mode(editor);
+        toggle_marking_mode(editor, true);
     }
 }

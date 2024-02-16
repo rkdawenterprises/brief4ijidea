@@ -89,7 +89,7 @@ public class Beginning_of_line_action
                 ( caret_position.line <= visible_area_top_alternate_beginning_of_line_position.line ) ) && ( caret_position.column == 0 );
         if( at_window_start )
         {
-            if( Marking_component.is_marking_mode() )
+            if( Marking_component.INSTANCE.is_marking_mode() )
             {
                 do_action( "EditorTextStartWithSelection", e );
                 return;
@@ -110,7 +110,7 @@ public class Beginning_of_line_action
         boolean at_line_start = ( caret_position.column == 0 ) || Line_marking_component.is_line_marking_mode();
         if( at_line_start )
         {
-            if( Marking_component.is_marking_mode() )
+            if( Marking_component.INSTANCE.is_marking_mode() )
             {
                 do_action( "EditorMoveToPageTopWithSelection", e );
                 return;
@@ -134,7 +134,7 @@ public class Beginning_of_line_action
         {
             EditorActionUtil.moveCaretToLineStartIgnoringSoftWraps( editor );
             EditorModificationUtil.scrollToCaret( editor );
-            if( Marking_component.is_marking_mode() )
+            if( Marking_component.INSTANCE.is_marking_mode() )
             {
                 Marking_component.marking_post_handler( editor,
                                                         KeyEvent.VK_HOME );
@@ -142,7 +142,7 @@ public class Beginning_of_line_action
         }
         else
         {
-            if( Marking_component.is_marking_mode() )
+            if( Marking_component.INSTANCE.is_marking_mode() )
             {
                 do_action( "EditorLineStartWithSelection", e );
             }

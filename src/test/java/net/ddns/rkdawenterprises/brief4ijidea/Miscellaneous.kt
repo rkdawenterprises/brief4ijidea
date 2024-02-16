@@ -37,7 +37,7 @@ import com.intellij.remoterobot.utils.waitFor
 import net.ddns.rkdawenterprises.brief4ijidea.pages.DialogFixture
 import net.ddns.rkdawenterprises.brief4ijidea.pages.DialogFixture.Companion.byTitle
 import net.ddns.rkdawenterprises.brief4ijidea.pages.IdeaFrame
-import org.apache.commons.lang.StringUtils
+import org.apache.commons.lang3.StringUtils
 import java.awt.Point
 import java.time.Duration
 

@@ -14,348 +14,333 @@
  * limitations under the License.
  */
 
-package net.ddns.rkdawenterprises.brief4ijidea;
+@file:Suppress("ClassName",
+               "FunctionName",
+               "RedundantSemicolon",
+               "PrivatePropertyName",
+               "LocalVariableName",
+               "PropertyName",
+               "PackageName",
+               "UnnecessaryVariable",
+               "ArrayInDataClass")
 
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.IdeActions;
-import com.intellij.openapi.editor.Caret;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.LogicalPosition;
-import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
-import com.intellij.openapi.editor.actionSystem.EditorActionManager;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+package net.ddns.rkdawenterprises.brief4ijidea
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Objects;
+import com.intellij.openapi.actionSystem.DataContext
+import com.intellij.openapi.actionSystem.IdeActions
+import com.intellij.openapi.editor.Caret
+import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.editor.LogicalPosition
+import com.intellij.openapi.editor.actionSystem.EditorActionHandler
+import com.intellij.openapi.editor.actionSystem.EditorActionManager
+import java.awt.event.KeyAdapter
+import java.awt.event.KeyEvent
+import java.awt.event.MouseAdapter
+import java.awt.event.MouseEvent
+import java.util.*
 
-import static net.ddns.rkdawenterprises.brief4ijidea.MiscellaneousKt.has_selection;
-
-public class Marking_component
+object Marking_component
 {
-    private static boolean s_is_marking_mode = false;
-    private static LogicalPosition s_selection_origin = null;
+    private var s_is_marking_mode = false;
+    private var s_is_marking_mode_noninclusive = false;
+    private var s_selection_origin: LogicalPosition? = null;
 
-    public static boolean is_marking_mode() { return s_is_marking_mode; }
-
-    public static boolean toggle_marking_mode( @NotNull Editor editor )
+    fun is_marking_mode(): Boolean
     {
-        s_is_marking_mode = !s_is_marking_mode;
-        if( s_is_marking_mode )
+        return s_is_marking_mode;
+    }
+
+    fun is_marking_mode_noninclusive(): Boolean
+    {
+        return s_is_marking_mode_noninclusive;
+    }
+
+    fun toggle_marking_mode(editor: Editor, is_noninclusive: Boolean): Boolean
+    {
+        if(s_is_marking_mode)
         {
-            enable_marking_mode( editor );
+            if(s_is_marking_mode_noninclusive == is_noninclusive)
+            {
+                stop_marking_mode(editor,
+                                  true);
+            }
+            else
+            {
+                stop_marking_mode(editor,
+                                  true);
+                enable_marking_mode(editor, is_noninclusive);
+
+            }
         }
         else
         {
-            stop_marking_mode( editor,
-                               true );
+            enable_marking_mode(editor, is_noninclusive);
         }
 
         return s_is_marking_mode;
     }
 
-    private static Key_adapter s_key_adapter = null;
-    private static Mouse_adapter s_mouse_adapter = null;
+    private var s_key_adapter: Key_adapter? = null
+    private var s_mouse_adapter: Mouse_adapter? = null
 
-    public static void enable_marking_mode( @NotNull Editor editor )
+    private fun enable_marking_mode(editor: Editor, is_noninclusive: Boolean)
     {
-        add_key_handlers( editor );
+        add_key_handlers(editor);
 
         s_is_marking_mode = true;
+        s_is_marking_mode_noninclusive = is_noninclusive;
+        s_selection_origin = editor.caretModel.logicalPosition;
 
-        State_component.status_bar_message( "<MARKING-MODE>" );
-
-        s_selection_origin = editor.getCaretModel()
-                                   .getLogicalPosition();
-
-        editor.getCaretModel()
-              .moveCaretRelatively( 1,
-                                    0,
-                                    true,
-                                    false,
-                                    true );
+        if(!is_noninclusive)
+        {
+            State_component.status_bar_message("<MARKING-MODE>");
+            editor.caretModel.moveCaretRelatively(1,
+                                                  0,
+                                                  true,
+                                                  false,
+                                                  true);
+        }
+        else
+        {
+            State_component.status_bar_message("<NONINCLUSIVE-MARKING-MODE>");
+        }
     }
 
-    public static void stop_marking_mode( @NotNull Editor editor,
-                                          boolean remove_selection )
+    fun stop_marking_mode(editor: Editor,
+                          remove_selection: Boolean)
     {
         s_is_marking_mode = false;
+        s_is_marking_mode_noninclusive = false;
         s_selection_origin = null;
 
-        State_component.status_bar_message( null );
+        State_component.status_bar_message(null);
 
-        remove_key_handlers( editor );
+        remove_key_handlers(editor);
 
-        if( remove_selection )
+        if(remove_selection)
         {
-            if( has_selection( editor ) )
+            if(has_selection(editor))
             {
-                editor.getCaretModel()
-                      .removeSecondaryCarets();
-                editor.getSelectionModel()
-                      .removeSelection();
+                editor.caretModel.removeSecondaryCarets();
+                editor.selectionModel.removeSelection();
             }
         }
     }
 
-    private static void add_key_handlers( @NotNull Editor editor )
+    private fun add_key_handlers(editor: Editor)
     {
-        EditorActionManager editor_action_manager = EditorActionManager.getInstance();
+        val editor_action_manager = EditorActionManager.getInstance();
 
-        editor_action_manager.setActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_UP,
-                                                new Editor_action_handler( editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_UP ),
-                                                                           editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_UP_WITH_SELECTION ),
-                                                                           KeyEvent.VK_UP ) );
+        editor_action_manager.setActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_UP,
+                                               Editor_action_handler(editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_UP),
+                                                                     editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_UP_WITH_SELECTION),
+                                                                     KeyEvent.VK_UP));
 
-        editor_action_manager.setActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_DOWN,
-                                                new Editor_action_handler( editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_DOWN ),
-                                                                           editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_DOWN_WITH_SELECTION ),
-                                                                           KeyEvent.VK_DOWN ) );
+        editor_action_manager.setActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_DOWN,
+                                               Editor_action_handler(editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_DOWN),
+                                                                     editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_DOWN_WITH_SELECTION),
+                                                                     KeyEvent.VK_DOWN));
 
-        editor_action_manager.setActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_RIGHT,
-                                                new Editor_action_handler( editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_RIGHT ),
-                                                                           editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_RIGHT_WITH_SELECTION ),
-                                                                           KeyEvent.VK_RIGHT ) );
+        editor_action_manager.setActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_RIGHT,
+                                               Editor_action_handler(editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_RIGHT),
+                                                                     editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_RIGHT_WITH_SELECTION),
+                                                                     KeyEvent.VK_RIGHT));
 
-        editor_action_manager.setActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_LEFT,
-                                                new Editor_action_handler( editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_LEFT ),
-                                                                           editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_LEFT_WITH_SELECTION ),
-                                                                           KeyEvent.VK_LEFT ) );
+        editor_action_manager.setActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_LEFT,
+                                               Editor_action_handler(editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_LEFT),
+                                                                     editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_LEFT_WITH_SELECTION),
+                                                                     KeyEvent.VK_LEFT));
 
-        editor_action_manager.setActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_PAGE_UP,
-                                                new Editor_action_handler( editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_PAGE_UP ),
-                                                                           editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_PAGE_UP_WITH_SELECTION ),
-                                                                           KeyEvent.VK_PAGE_UP ) );
+        editor_action_manager.setActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_PAGE_UP,
+                                               Editor_action_handler(editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_PAGE_UP),
+                                                                     editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_PAGE_UP_WITH_SELECTION),
+                                                                     KeyEvent.VK_PAGE_UP));
 
-        editor_action_manager.setActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_PAGE_DOWN,
-                                                new Editor_action_handler( editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_PAGE_DOWN ),
-                                                                           editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_PAGE_DOWN_WITH_SELECTION ),
-                                                                           KeyEvent.VK_PAGE_DOWN ) );
+        editor_action_manager.setActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_PAGE_DOWN,
+                                               Editor_action_handler(editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_PAGE_DOWN),
+                                                                     editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_PAGE_DOWN_WITH_SELECTION),
+                                                                     KeyEvent.VK_PAGE_DOWN));
 
-        editor_action_manager.setActionHandler( IdeActions.ACTION_EDITOR_DELETE,
-                                                new Editor_action_handler( editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_DELETE ),
-                                                                           editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_DELETE ),
-                                                                           KeyEvent.VK_DELETE ) );
+        editor_action_manager.setActionHandler(IdeActions.ACTION_EDITOR_DELETE,
+                                               Editor_action_handler(editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_DELETE),
+                                                                     editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_DELETE),
+                                                                     KeyEvent.VK_DELETE));
 
-        editor_action_manager.setActionHandler( IdeActions.ACTION_EDITOR_BACKSPACE,
-                                                new Editor_action_handler( editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_BACKSPACE ),
-                                                                           editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_BACKSPACE ),
-                                                                           KeyEvent.VK_BACK_SPACE ) );
+        editor_action_manager.setActionHandler(IdeActions.ACTION_EDITOR_BACKSPACE,
+                                               Editor_action_handler(editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_BACKSPACE),
+                                                                     editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_BACKSPACE),
+                                                                     KeyEvent.VK_BACK_SPACE));
 
-        editor_action_manager.setActionHandler( IdeActions.ACTION_EDITOR_ENTER,
-                                                new Editor_action_handler( editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_ENTER ),
-                                                                           editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_ENTER ),
-                                                                           KeyEvent.VK_ENTER ) );
+        editor_action_manager.setActionHandler(IdeActions.ACTION_EDITOR_ENTER,
+                                               Editor_action_handler(editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_ENTER),
+                                                                     editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_ENTER),
+                                                                     KeyEvent.VK_ENTER));
 
         // TODO: Handle cursor movement commands also (or add actions for those)...
+        s_key_adapter = Key_adapter(editor);
+        editor.contentComponent.addKeyListener(s_key_adapter);
 
-        s_key_adapter = new Marking_component.Key_adapter( editor );
-        editor.getContentComponent()
-              .addKeyListener( s_key_adapter );
-
-        s_mouse_adapter = new Marking_component.Mouse_adapter( editor );
-        editor.getContentComponent()
-              .addMouseListener( s_mouse_adapter );
+        s_mouse_adapter = Mouse_adapter(editor);
+        editor.contentComponent.addMouseListener(s_mouse_adapter);
     }
 
-    private static void remove_key_handlers( @NotNull Editor editor )
+    private fun remove_key_handlers(editor: Editor)
     {
-        editor.getContentComponent()
-              .removeKeyListener( s_key_adapter );
-        editor.getContentComponent()
-              .removeMouseListener( s_mouse_adapter );
+        editor.contentComponent.removeKeyListener(s_key_adapter);
+        editor.contentComponent.removeMouseListener(s_mouse_adapter);
 
-        EditorActionManager editor_action_manager = EditorActionManager.getInstance();
+        val editor_action_manager = EditorActionManager.getInstance();
 
-        EditorActionHandler handler;
-
-        handler = editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_UP );
-        if( handler instanceof Editor_action_handler )
+        var handler = editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_UP);
+        if(handler is Editor_action_handler)
         {
-            editor_action_manager.setActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_UP,
-                                                    ( (Editor_action_handler)handler ).m_original_handler );
+            editor_action_manager.setActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_UP,
+                                                   handler.m_original_handler);
         }
 
-        handler = editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_DOWN );
-        if( handler instanceof Editor_action_handler )
+        handler = editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_DOWN);
+        if(handler is Editor_action_handler)
         {
-            editor_action_manager.setActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_DOWN,
-                                                    ( (Editor_action_handler)handler ).m_original_handler );
+            editor_action_manager.setActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_DOWN,
+                                                   handler.m_original_handler);
         }
 
-        handler = editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_LEFT );
-        if( handler instanceof Editor_action_handler )
+        handler = editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_LEFT);
+        if(handler is Editor_action_handler)
         {
-            editor_action_manager.setActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_LEFT,
-                                                    ( (Editor_action_handler)handler ).m_original_handler );
+            editor_action_manager.setActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_LEFT,
+                                                   handler.m_original_handler);
         }
 
-        handler = editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_RIGHT );
-        if( handler instanceof Editor_action_handler )
+        handler = editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_RIGHT);
+        if(handler is Editor_action_handler)
         {
-            editor_action_manager.setActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_RIGHT,
-                                                    ( (Editor_action_handler)handler ).m_original_handler );
+            editor_action_manager.setActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_RIGHT,
+                                                   handler.m_original_handler);
         }
 
-        handler = editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_PAGE_UP );
-        if( handler instanceof Editor_action_handler )
+        handler = editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_PAGE_UP);
+        if(handler is Editor_action_handler)
         {
-            editor_action_manager.setActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_PAGE_UP,
-                                                    ( (Editor_action_handler)handler ).m_original_handler );
+            editor_action_manager.setActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_PAGE_UP,
+                                                   handler.m_original_handler);
         }
 
-        handler = editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_PAGE_DOWN );
-        if( handler instanceof Editor_action_handler )
+        handler = editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_PAGE_DOWN);
+        if(handler is Editor_action_handler)
         {
-            editor_action_manager.setActionHandler( IdeActions.ACTION_EDITOR_MOVE_CARET_PAGE_DOWN,
-                                                    ( (Editor_action_handler)handler ).m_original_handler );
+            editor_action_manager.setActionHandler(IdeActions.ACTION_EDITOR_MOVE_CARET_PAGE_DOWN,
+                                                   handler.m_original_handler);
         }
 
-        handler = editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_DELETE );
-        if( handler instanceof Editor_action_handler )
+        handler = editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_DELETE);
+        if(handler is Editor_action_handler)
         {
-            editor_action_manager.setActionHandler( IdeActions.ACTION_EDITOR_DELETE,
-                                                    ( (Editor_action_handler)handler ).m_original_handler );
+            editor_action_manager.setActionHandler(IdeActions.ACTION_EDITOR_DELETE,
+                                                   handler.m_original_handler);
         }
 
-        handler = editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_BACKSPACE );
-        if( handler instanceof Editor_action_handler )
+        handler = editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_BACKSPACE);
+        if(handler is Editor_action_handler)
         {
-            editor_action_manager.setActionHandler( IdeActions.ACTION_EDITOR_BACKSPACE,
-                                                    ( (Editor_action_handler)handler ).m_original_handler );
+            editor_action_manager.setActionHandler(IdeActions.ACTION_EDITOR_BACKSPACE,
+                                                   handler.m_original_handler);
         }
 
-        handler = editor_action_manager.getActionHandler( IdeActions.ACTION_EDITOR_ENTER );
-        if( handler instanceof Editor_action_handler )
+        handler = editor_action_manager.getActionHandler(IdeActions.ACTION_EDITOR_ENTER);
+        if(handler is Editor_action_handler)
         {
-            editor_action_manager.setActionHandler( IdeActions.ACTION_EDITOR_ENTER,
-                                                    ( (Editor_action_handler)handler ).m_original_handler );
+            editor_action_manager.setActionHandler(IdeActions.ACTION_EDITOR_ENTER,
+                                                   handler.m_original_handler);
         }
     }
 
-    public static void marking_post_handler( @NotNull Editor editor,
-                                             int key_code )
+    @JvmStatic
+    fun marking_post_handler(editor: Editor,
+                             key_code: Int)
     {
-        if( ( key_code == KeyEvent.VK_DELETE ) ||
-                ( key_code == KeyEvent.VK_BACK_SPACE ) ||
-                ( key_code == KeyEvent.VK_ENTER ) )
+        if((key_code == KeyEvent.VK_DELETE) || (key_code == KeyEvent.VK_BACK_SPACE) || (key_code == KeyEvent.VK_ENTER))
         {
-            stop_marking_mode( editor,
-                               false );
+            stop_marking_mode(editor,
+                              false);
+            return
+        }
+
+        val caret_logical_position = editor.caretModel.currentCaret.logicalPosition;
+
+        if(caret_logical_position.compareTo(s_selection_origin) > 0)
+        {
+            val start = s_selection_origin;
+            val end = caret_logical_position;
+
+            editor.caretModel.currentCaret.setSelection(editor.logicalPositionToOffset(start!!),
+                                                        editor.logicalPositionToOffset(end));
             return;
         }
 
-        LogicalPosition caret_logical_position = editor.getCaretModel()
-                                                       .getCurrentCaret()
-                                                       .getLogicalPosition();
-
-        if( caret_logical_position.compareTo( s_selection_origin ) > 0 )
+        if(caret_logical_position.compareTo(s_selection_origin) < 0)
         {
-            LogicalPosition start = s_selection_origin;
-            LogicalPosition end = caret_logical_position;
+            val start = caret_logical_position;
+            val end = s_selection_origin;
 
-            editor.getCaretModel()
-                  .getCurrentCaret()
-                  .setSelection( editor.logicalPositionToOffset( start ),
-                                 editor.logicalPositionToOffset( end ) );
+            editor.caretModel.currentCaret.setSelection(editor.logicalPositionToOffset(start),
+                                                        editor.logicalPositionToOffset(end!!));
             return;
         }
 
-        if( caret_logical_position.compareTo( s_selection_origin ) < 0 )
+        if(caret_logical_position.compareTo(s_selection_origin) == 0)
         {
-            LogicalPosition start = caret_logical_position;
-            LogicalPosition end = s_selection_origin;
+            val start = s_selection_origin;
+            val end = caret_logical_position;
 
-            editor.getCaretModel()
-                  .getCurrentCaret()
-                  .setSelection( editor.logicalPositionToOffset( start ),
-                                 editor.logicalPositionToOffset( end ) );
-            return;
-        }
-
-        if( caret_logical_position.compareTo( s_selection_origin ) == 0 )
-        {
-            LogicalPosition start = s_selection_origin;
-            LogicalPosition end = caret_logical_position;
-
-            editor.getCaretModel()
-                  .getCurrentCaret()
-                  .setSelection( editor.logicalPositionToOffset( start ),
-                                 editor.logicalPositionToOffset( end ) );
+            editor.caretModel.currentCaret.setSelection(editor.logicalPositionToOffset(start!!),
+                                                        editor.logicalPositionToOffset(end));
             return;
         }
     }
 
-    public static final class Editor_action_handler
-            extends EditorActionHandler
+    class Editor_action_handler(val m_original_handler: EditorActionHandler,
+                                private val m_substitute_handler: EditorActionHandler?,
+                                private val m_key_code: Int) : EditorActionHandler()
     {
-        private final EditorActionHandler m_original_handler;
-        private final EditorActionHandler m_substitute_handler;
-        private final int m_key_code;
-
-        public Editor_action_handler( @NotNull EditorActionHandler original_handler,
-                                      @Nullable EditorActionHandler substitute_handler,
-                                      int key_code )
-        {
-            m_original_handler = original_handler;
-            m_substitute_handler = substitute_handler;
-            m_key_code = key_code;
-        }
-
         /**
          * Executes the action in the context of given caret. Subclasses should override this method.
          *
          * @param editor      the editor in which the action is invoked.
-         * @param caret       the caret for which the action is performed at the moment, or {@code null} if it's a
-         *                    'one-off' action executed without current context
+         * @param caret       the caret for which the action is performed at the moment, or `null` if it's a
+         * 'one-off' action executed without current context
          * @param dataContext the data context for the action.
          */
-        @Override
-        protected void doExecute( @NotNull Editor editor,
-                                  @Nullable Caret caret,
-                                  DataContext dataContext )
+        override fun doExecute(editor: Editor,
+                               caret: Caret?,
+                               dataContext: DataContext)
         {
-            Objects.requireNonNullElse( m_substitute_handler,
-                                        m_original_handler )
-                   .execute( editor,
-                             caret,
-                             dataContext );
+            val handler: EditorActionHandler = Objects.requireNonNullElse(m_substitute_handler,
+                                                                          m_original_handler);
+            handler.execute(editor,
+                            caret,
+                            dataContext);
 
-            marking_post_handler( editor,
-                                  m_key_code );
+            marking_post_handler(editor,
+                                 m_key_code);
         }
     }
 
-    public static final class Key_adapter
-            extends KeyAdapter
+    class Key_adapter(private val m_editor: Editor) : KeyAdapter()
     {
-        private final Editor m_editor;
-
-        public Key_adapter( @NotNull Editor editor ) { m_editor = editor; }
-
-        @Override
-        public void keyTyped( KeyEvent e )
+        override fun keyTyped(e: KeyEvent)
         {
-            stop_marking_mode( m_editor,
-                               true );
+            stop_marking_mode(m_editor,
+                              true);
         }
     }
 
-    public static final class Mouse_adapter
-            extends MouseAdapter
+    class Mouse_adapter(private val m_editor: Editor) : MouseAdapter()
     {
-        private final Editor m_editor;
-
-        public Mouse_adapter( @NotNull Editor editor ) { m_editor = editor; }
-
-        @Override
-        public void mouseClicked( MouseEvent e )
+        override fun mouseClicked(e: MouseEvent)
         {
-            stop_marking_mode( m_editor,
-                               true );
+            stop_marking_mode(m_editor,
+                              true);
         }
     }
 }
