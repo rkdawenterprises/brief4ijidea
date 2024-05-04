@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2023 RKDAW Enterprises and Ralph Williamson
+ * Copyright (c) 2019-2024 RKDAW Enterprises and Ralph Williamson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,161 +14,110 @@
  * limitations under the License.
  */
 
+import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-fun properties(key: String) = project.findProperty(key).toString()
+fun properties(key: String) = providers.gradleProperty(key)
 fun environment(key: String) = providers.environmentVariable(key)
 
 plugins {
     // Java support
     id("java")
     // Kotlin support
-    id("org.jetbrains.kotlin.jvm") version "1.9.22"
+    alias(libs.plugins.kotlin)
     // Gradle IntelliJ Plugin
-    id("org.jetbrains.intellij") version "1.15.0"
+    alias(libs.plugins.gradleIntelliJPlugin)
     // Gradle Changelog Plugin
-    id("org.jetbrains.changelog") version "2.0.0"
+    alias(libs.plugins.changelog)
     // Gradle Qodana Plugin
-    id("org.jetbrains.qodana") version "0.1.13"
-    // Gradle Kover Plugin
-    id("org.jetbrains.kotlinx.kover") version "0.6.1"
+    alias(libs.plugins.qodana)
 }
 
-group = properties("pluginGroup")
-version = properties("pluginVersion")
-
-val remoteRobotVersion = "0.11.13"
+group = properties("pluginGroup").get()
+version = properties("pluginVersion").get()
 
 // Configure project's dependencies
 repositories {
     mavenCentral()
-    maven { url = uri("https://packages.jetbrains.team/maven/p/ij/intellij-dependencies") }
 }
 
-// Set the JVM language level used to build project.
-kotlin {
-    jvmToolchain(properties("javaVersion").toInt())
-}
-
+// Dependencies are managed with Gradle version catalog - read more: https://docs.gradle.org/current/userguide/platforms.html#sub:version-catalog
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
-    testImplementation("com.intellij.remoterobot:remote-robot:$remoteRobotVersion")
-    testImplementation("com.intellij.remoterobot:remote-fixtures:$remoteRobotVersion")
-    testImplementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
-    testImplementation("com.intellij.remoterobot:ide-launcher:$remoteRobotVersion")
+//    implementation(libs.annotations)
 }
 
-// Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
+// Set the JVM language level used to build the project.
+kotlin {
+    jvmToolchain(properties("javaVersion").get().toInt())
+}
+
+// Configure Gradle IntelliJ Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    pluginName.set(properties("pluginName"))
-    version.set(properties("platformVersion"))
-    type.set(properties("platformType"))
+    pluginName = properties("pluginName")
+    version = properties("platformVersion")
+    type = properties("platformType")
 
     // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file.
-    plugins.set(properties("platformPlugins").split(',').map(String::trim).filter(String::isNotEmpty))
-    updateSinceUntilBuild.set(false)
+    plugins = properties("platformPlugins").map { it.split(',').map(String::trim).filter(String::isNotEmpty) }
 }
 
 // Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
 changelog {
     version.set(properties("pluginVersion"))
-    groups.set(emptyList())
-}
-
-// Configure Gradle Qodana Plugin - read more: https://github.com/JetBrains/gradle-qodana-plugin
-qodana {
-    cachePath.set(projectDir.resolve(".qodana").canonicalPath)
-    reportPath.set(projectDir.resolve("build/reports/inspections").canonicalPath)
-    saveReport.set(true)
-    showReport.set(System.getenv("QODANA_SHOW_REPORT")?.toBoolean() ?: false)
-}
-
-// Configure Gradle Kover Plugin - read more: https://github.com/Kotlin/kotlinx-kover#configuration
-kover.xmlReport {
-    onCheck.set(true)
+    groups.empty()
+    repositoryUrl = properties("pluginRepositoryUrl")
 }
 
 tasks {
-    // Set the JVM compatibility versions
-    properties("javaVersion").let {
-        withType<JavaCompile> {
-            sourceCompatibility = it
-            targetCompatibility = it
-        }
-        withType<KotlinCompile> {
-            kotlinOptions.jvmTarget = it
-        }
-    }
-
     wrapper {
-        gradleVersion = properties("gradleVersion")
-    }
-
-    downloadRobotServerPlugin {
-        version.set(remoteRobotVersion)
+        gradleVersion = properties("gradleVersion").get()
     }
 
     patchPluginXml {
-        version.set(properties("pluginVersion"))
-        sinceBuild.set(properties("pluginSinceBuild"))
-        untilBuild.set(properties("pluginUntilBuild"))
+        version = properties("pluginVersion")
+        sinceBuild = properties("pluginSinceBuild")
+        untilBuild = properties("pluginUntilBuild")
 
         // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
-        pluginDescription.set(
-            projectDir.resolve("README.md").readText().lines().run {
-                val start = "<!-- Plugin description -->"
-                val end = "<!-- Plugin description end -->"
+        pluginDescription = providers.fileContents(layout.projectDirectory.file("README.md")).asText.map {
+            val start = "<!-- Plugin description -->"
+            val end = "<!-- Plugin description end -->"
 
+            with (it.lines()) {
                 if (!containsAll(listOf(start, end))) {
                     throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
                 }
-                subList(indexOf(start) + 1, indexOf(end))
-            }.joinToString("\n").run { markdownToHTML(this) })
+                subList(indexOf(start) + 1, indexOf(end)).joinToString("\n").let(::markdownToHTML)
+            }
+        }
 
+        val changelog = project.changelog // local variable for configuration cache compatibility
         // Get the latest available change notes from the changelog file
-        changeNotes.set(provider {
+        changeNotes = properties("pluginVersion").map { pluginVersion ->
             with(changelog) {
                 renderItem(
-                        getOrNull(properties("pluginVersion")) ?: getLatest(),
-                        org.jetbrains.changelog.Changelog.OutputType.HTML,
+                    (getOrNull(pluginVersion) ?: getUnreleased())
+                        .withHeader(false)
+                        .withEmptySections(false),
+                    Changelog.OutputType.HTML,
                 )
             }
-        })
-    }
-
-    // Configure UI tests plugin. Read more: https://github.com/JetBrains/intellij-ui-test-robot
-    runIdeForUiTests {
-        systemProperty("robot-server.port", "22224")
-        systemProperty("ide.mac.message.dialogs.as.sheets", "false")
-        systemProperty("jb.privacy.policy.text", "<!--999.999-->")
-        systemProperty("jb.consents.confirmation.enabled", "false")
-        systemProperty("ide.mac.file.chooser.native", "false")
-        systemProperty("apple.laf.useScreenMenuBar", "false")
-        systemProperty("idea.trust.all.projects", "true")
-        systemProperty("ide.show.tips.on.startup.default.value", "false")
-        systemProperty("robot-server.host.public", "true")
+        }
     }
 
     signPlugin {
-//        certificateChainFile.set(file(System.getenv("CERTIFICATE_CHAIN_FILE")))
-//        privateKeyFile.set(file(System.getenv("PRIVATE_KEY_FILE")))
-        password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
+        certificateChain = environment("CERTIFICATE_CHAIN")
+        privateKey = environment("PRIVATE_KEY")
+        password = environment("PRIVATE_KEY_PASSWORD")
     }
 
-    // Read more: https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
     publishPlugin {
         dependsOn("patchChangelog")
-        token.set(System.getenv("PUBLISH_TOKEN"))
-        // pluginVersion is based on the SemVer (https://semver.org) and supports pre-release labels, like 2.1.7-alpha.3
+        token = environment("PUBLISH_TOKEN")
+        // The pluginVersion is based on the SemVer (https://semver.org) and supports pre-release labels, like 2.1.7-alpha.3
         // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
         // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
-        channels.set(listOf(properties("pluginVersion").split('-').getOrElse(1) { "default" }.split('.').first()))
-    }
-
-    test {
-        useJUnitPlatform()
+        channels = properties("pluginVersion").map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
     }
 }

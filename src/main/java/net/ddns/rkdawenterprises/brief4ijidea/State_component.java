@@ -39,12 +39,14 @@ import com.intellij.openapi.wm.StatusBar;
 import com.intellij.openapi.wm.WindowManager;
 import com.intellij.util.xmlb.XmlSerializer;
 import com.intellij.util.xmlb.XmlSerializerUtil;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Map;
 
 import static net.ddns.rkdawenterprises.brief4ijidea.MiscellaneousKt.editor_gained_focus;
@@ -164,8 +166,9 @@ public class State_component
             }
 
             @Override
-            public void shortcutChanged( @NotNull Keymap keymap,
-                                         @NotNull String actionId )
+            public void shortcutsChanged(@NotNull Keymap keymap,
+                                         @NonNls @NotNull Collection<String> actionIds,
+                                         boolean fromSettings)
             {
                 keymap_modified( null );
             }
