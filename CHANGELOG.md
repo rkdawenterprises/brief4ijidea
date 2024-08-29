@@ -2,6 +2,14 @@
 
 # Brief Emulator for Intellij IDEA
 
+## [1.1.1] - 2024-08-29
+### Added
+- Added support for 242 platform.
+### Changed
+- Removed support for 241 platform.
+### Fixed
+- Removed deprecated and a use of internal API's.
+
 ## [1.1.0] - 2024-05-04
 ### Added
 - Added Noninclusive marking mode toggle command (Alt+A).

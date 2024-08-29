@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2022 RKDAW Enterprises and Ralph Williamson
+ * Copyright (c) 2019-2024 RKDAW Enterprises and Ralph Williamson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,20 +18,14 @@ package net.ddns.rkdawenterprises.brief4ijidea.actions;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
-import com.intellij.openapi.fileEditor.impl.EditorComposite;
-import com.intellij.openapi.fileEditor.impl.EditorsSplitters;
-import com.intellij.openapi.fileEditor.impl.FileEditorManagerImpl;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.newvfs.impl.VirtualFileImpl;
 import com.intellij.psi.PsiFile;
 import net.ddns.rkdawenterprises.brief4ijidea.State_component;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 import static net.ddns.rkdawenterprises.brief4ijidea.Miscellaneous.do_action;
 
@@ -96,18 +90,12 @@ public class Exit_action
     public static boolean is_file_modified( Project project,
                                             VirtualFileImpl file )
     {
-        FileEditorManagerImpl file_editor_manager = (FileEditorManagerImpl)FileEditorManager.getInstance( project );
-        List<EditorComposite> result = new ArrayList<>();
-        Set<EditorsSplitters> all = file_editor_manager.getAllSplitters();
-        for( EditorsSplitters each : all )
-        {
-            result.addAll( each.getAllComposites( file ) );
-        }
-
+        FileEditorManager file_editor_manager = FileEditorManager.getInstance( project );
+        FileEditor[] editors = file_editor_manager.getAllEditors( file );
         boolean modified = false;
-        for( EditorComposite composite : result )
+        for(FileEditor editor: editors)
         {
-            modified |= composite.isModified();
+            modified |= editor.isModified();
         }
 
         return modified;

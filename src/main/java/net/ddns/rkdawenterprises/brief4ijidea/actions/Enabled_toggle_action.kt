@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2022 RKDAW Enterprises and Ralph Williamson
+ * Copyright (c) 2019-2024 RKDAW Enterprises and Ralph Williamson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 
 package net.ddns.rkdawenterprises.brief4ijidea.actions
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.DumbAwareToggleAction
 import net.ddns.rkdawenterprises.brief4ijidea.Localized_messages
@@ -54,5 +55,10 @@ class Enabled_toggle_action : DumbAwareToggleAction(Localized_messages.message("
             State_component.enable(state);
         }
         catch(ignored: Exception){}
+    }
+
+    override fun getActionUpdateThread(): ActionUpdateThread
+    {
+        return ActionUpdateThread.BGT;
     }
 }
