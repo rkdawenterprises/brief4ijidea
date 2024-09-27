@@ -2,6 +2,11 @@
 
 # Brief Emulator for Intellij IDEA
 
+## [1.1.2] - 2024-08-29
+### Changed
+- Aligned with latest plugin template.
+- Removed pluginUntilBuild property.
+
 ## [1.1.1] - 2024-08-29
 ### Added
 - Added support for 242 platform.

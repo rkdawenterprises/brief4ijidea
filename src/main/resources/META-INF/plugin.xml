@@ -19,9 +19,6 @@
     <id>net.ddns.rkdawenterprises.brief4ijidea</id>
     <name>Brief Emulator</name>
     <vendor email="rkdawenterprises@gmail.com" url="http://rkdawenterprises.ddns.net">RKDAW Enterprises</vendor>
-    <description>
-        <![CDATA[placeholder_placeholder_placeholder_placeholder]]>
-    </description>
 
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
          on how to target different products -->
