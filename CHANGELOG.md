@@ -2,6 +2,10 @@
 
 # Brief Emulator for Intellij IDEA
 
+## [1.1.3] - 2024-10-03
+### Changed
+- Fixed removal (null) of pluginUntilBuild property.
+
 ## [1.1.2] - 2024-08-29
 ### Changed
 - Aligned with latest plugin template.
