@@ -134,7 +134,7 @@ public class Application_configurable
     @Override
     public void disposeUIResources()
     {
-        m_settings_ui_component.dispose();
+//        m_settings_ui_component.dispose();
         m_settings_ui_component = null;
     }
 }

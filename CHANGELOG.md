@@ -2,6 +2,10 @@
 
 # Brief Emulator for Intellij IDEA
 
+## [1.1.4] - 2025-08-05
+### Fixed
+- Removed use of internal API's ActionManagerImpl and FormattingServiceUtil.
+
 ## [1.1.3] - 2024-10-03
 ### Changed
 - Fixed removal (null) of pluginUntilBuild property.

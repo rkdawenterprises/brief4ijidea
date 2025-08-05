@@ -20,7 +20,6 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.ex.ActionManagerEx;
 import com.intellij.openapi.actionSystem.ex.ActionUtil;
-import com.intellij.openapi.actionSystem.impl.ActionManagerImpl;
 
 import static net.ddns.rkdawenterprises.brief4ijidea.Actions_promoter.should_promote;
 
@@ -29,11 +28,10 @@ public class Miscellaneous
     public static void do_action( String action_ID,
                                   AnActionEvent an_action_event )
     {
-        ActionManagerEx action_manager_ex = ActionManagerImpl.getInstanceEx();
+        ActionManagerEx action_manager_ex = ActionManagerEx.getInstanceEx();
         AnAction action = action_manager_ex.getAction(action_ID);
-        ActionUtil.performActionDumbAwareWithCallbacks(action,
-                an_action_event);
-
+        ActionUtil.performAction(action,
+                                 an_action_event);
     }
 
     public static void do_action( String action_ID,
@@ -43,10 +41,10 @@ public class Miscellaneous
         if(!should_promote( an_action,
                             an_action_event.getDataContext() )
         ) return;
-        ActionManagerEx action_manager_ex = ActionManagerImpl.getInstanceEx();
+        ActionManagerEx action_manager_ex = ActionManagerEx.getInstanceEx();
         AnAction action = action_manager_ex.getAction(action_ID);
 
-        ActionUtil.performActionDumbAwareWithCallbacks(action,
-                an_action_event);
+        ActionUtil.performAction(action,
+                                 an_action_event);
     }
 }

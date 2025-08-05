@@ -17,14 +17,15 @@
 
 package net.ddns.rkdawenterprises.brief4ijidea;
 
-import com.intellij.openapi.Disposable;
+//import com.intellij.openapi.Disposable;
+//import com.intellij.openapi.util.Disposer;
 import com.intellij.ui.components.JBCheckBox;
 import com.intellij.util.ui.FormBuilder;
 
 import javax.swing.*;
 
 public class Settings_UI_component
-        implements Disposable
+//        implements Disposable
 {
     private final JPanel myMainPanel;
 
@@ -40,6 +41,8 @@ public class Settings_UI_component
 
     public Settings_UI_component()
     {
+//        Disposer.register(project_settings, this);
+
         m_enabled.setToolTipText( Localized_messages.message( "enable.the.brief.editor.emulator.functionality.uncheck.to.disable.the.plugin" ) );
         m_show_icon_in_status_bar.setToolTipText( Localized_messages.message( "shows.or.hides.the.plugin.widget.icon.in.the.status.bar.uncheck.to.hide.the.status.bar.icon" ) );
         m_paste_lines_at_home.setToolTipText( Localized_messages.message( "if.the.item.in.the.scrap.history.buffer.being.pasted.is.a.full.line.ends.with.a.line.termination.then.paste.it.at.the.beginning.of.the.current.line.uncheck.to.paste.at.the.current.cursor.location" ) );
@@ -77,8 +80,8 @@ public class Settings_UI_component
     /**
      * Usually not invoked directly, see class javadoc.
      */
-    @Override
-    public void dispose() { }
+//    @Override
+//    public void dispose() { }
 
     public JPanel getPanel()
     {

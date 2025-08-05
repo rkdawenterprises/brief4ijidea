@@ -87,7 +87,7 @@ public class Column_marking_component
 
     private static Mouse_adapter s_mouse_adapter = null;
 
-    private static ConcurrentHashMap<Integer, RangeHighlighter> s_range_highlighters;
+    private static ConcurrentHashMap<Integer, RangeHighlighter> s_range_highlighters = new ConcurrentHashMap<>();
     private static int s_block_start_line = -1;
     private static int s_block_end_line = -1;
 
@@ -159,7 +159,7 @@ public class Column_marking_component
         s_block_end_line = -1;
 
     }
-
+// TODO: Add 'home' 'end' support (even though they already have handlers)
     private static void add_key_handlers( @NotNull Editor editor )
     {
         EditorActionManager editor_action_manager = EditorActionManager.getInstance();
@@ -217,6 +217,7 @@ public class Column_marking_component
               .addMouseListener( s_mouse_adapter );
     }
 
+    // TODO: Add 'home' 'end' support (even though they already have handlers)
     private static void remove_key_handlers( @NotNull Editor editor )
     {
         editor.getContentComponent()
@@ -411,7 +412,7 @@ public class Column_marking_component
         s_previous_start_column = start.column;
         s_previous_end_column = end.column;
 
-        if( !try_to_reuse )
+        if( ( !try_to_reuse ) || ( s_range_highlighters == null ) )
         {
             remove_all_highlighters( editor );
             s_range_highlighters = new ConcurrentHashMap<>();

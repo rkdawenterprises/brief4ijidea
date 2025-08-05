@@ -28,6 +28,7 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.impl.UndoManagerImpl;
 import com.intellij.openapi.command.undo.UndoManager;
 import com.intellij.openapi.editor.*;
+import com.intellij.openapi.editor.EditorCopyPasteHelper.CopyPasteOptions;
 import com.intellij.openapi.editor.actionSystem.EditorActionManager;
 import com.intellij.openapi.editor.actions.BasePasteHandler;
 import com.intellij.openapi.editor.actions.EditorActionUtil;
@@ -45,6 +46,7 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiInvalidElementAccessException;
 import com.intellij.psi.SingleRootFileViewProvider;
 import com.intellij.util.text.CharArrayUtil;
 import net.ddns.rkdawenterprises.brief4ijidea.compatibility.TypingActionsExtension;
@@ -201,6 +203,7 @@ public class Paste_handler
         {
             return;
         }
+
         if(!EditorModificationUtil.requestWriting(editor))
         {
             return;
@@ -313,6 +316,10 @@ public class Paste_handler
         final CaretModel caretModel = editor.getCaretModel();
         final SelectionModel selectionModel = editor.getSelectionModel();
         int col = caretModel.getLogicalPosition().column;
+
+        // There is a possible case that we want to perform paste while there is an active selection at the editor and caret is located
+        // inside it (e.g. Ctrl+A is pressed while caret is not at the zero column). We want to insert the text at selection start column
+        // then, hence, inserted block of text should be indented according to the selection start as well.
         final int blockIndentAnchorColumn;
         final int caretOffset = caretModel.getOffset();
         boolean is_column_mode_item = text.contains(Column_marking_component.Column_mode_block_transferable.get_mime_type());
@@ -347,7 +354,9 @@ public class Paste_handler
             return;
         }
 
-        EditorCopyPasteHelper.CopyPasteOptions copyPasteOptions =
+        // We assume that EditorModificationUtil.insertStringAtCaret() is smart enough to remove currently selected text (if any).
+
+        CopyPasteOptions copyPasteOptions =
             EditorCopyPasteHelperImpl.CopyPasteOptionsTransferableData.valueFromTransferable(content);
         CopiedFromEmptySelectionPasteMode pasteMode = copyPasteOptions.isCopiedFromEmptySelection()
             ? getCopiedFromEmptySelectionPasteMode() : AT_CARET;
@@ -356,6 +365,7 @@ public class Paste_handler
         List<CaretState> caretStateToRestore = null;
         if(isInsertingEntireLineAboveCaret)
         {
+            // Make CopyPastePreProcessors see the caret at the real insertion offset.
             caretStateToRestore = caretModel.getCaretsAndSelections();
             int lineStartOffset = EditorUtil.getNotFoldedLineStartOffset(editor,
                                                                          caretOffset);
@@ -403,6 +413,10 @@ public class Paste_handler
         });
 
         final RangeMarker bounds = document.createRangeMarker(pastedRange);
+
+        // `skipIndentation` is additionally used as marker for changed pasted test
+        // Any value, except `null` is a signal that the text was transformed.
+        // For the `CopyPasteFoldingProcessor` it means that folding data is not valid and cannot be applied.
         final Ref<Boolean> skipIndentation = new Ref<>(pastedTextWasChanged ? Boolean.FALSE : null);
         for(ProcessorAndData<?> data : extraData)
         {
@@ -435,6 +449,7 @@ public class Paste_handler
                             bounds.getStartOffset(),
                             bounds.getEndOffset(),
                             blockIndentAnchorColumn,
+                            true,
                             true)
             );
         }
@@ -449,6 +464,8 @@ public class Paste_handler
             
             editor.putUserData(EditorEx.LAST_PASTED_REGION,
                                bounds.getTextRange());
+            // Don't dispose the 'bounds' RangeMarker because the processors
+            // from 'extraData' may use it later, for instance, in an invokeLater() block.
         }
     }
 
@@ -471,11 +488,11 @@ public class Paste_handler
                      @NotNull Ref<? super Boolean> skipIndentation)
         {
             processor.processTransferableData(project,
-                                              editor,
-                                              bounds,
-                                              caretOffset,
-                                              skipIndentation,
-                                              data);
+                    editor,
+                    bounds,
+                    caretOffset,
+                    skipIndentation,
+                    data);
         }
 
         static <T extends TextBlockTransferableData> @Nullable ProcessorAndData<T> create(@NotNull CopyPastePostProcessor<T> processor,

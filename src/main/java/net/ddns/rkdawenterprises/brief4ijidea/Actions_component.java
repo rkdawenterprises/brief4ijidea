@@ -250,7 +250,7 @@ public class Actions_component
     {
         remove_actions( keymap_file );
 
-        ActionManagerEx action_manager_ex = ActionManagerImpl.getInstanceEx();
+        ActionManagerEx action_manager_ex = ActionManagerEx.getInstanceEx();
 
         for( Map.Entry<String, Keymap_action_data> keymap_file_entry : keymap_file.entrySet() )
         {
@@ -287,7 +287,7 @@ public class Actions_component
 
     private static void remove_actions( @NotNull Map<String, Keymap_action_data> keymap_file )
     {
-        ActionManagerEx action_manager_ex = ActionManagerImpl.getInstanceEx();
+        ActionManagerEx action_manager_ex = ActionManagerEx.getInstanceEx();
 
         for( Map.Entry<String, Keymap_action_data> keymap_file_entry : keymap_file.entrySet() )
         {
