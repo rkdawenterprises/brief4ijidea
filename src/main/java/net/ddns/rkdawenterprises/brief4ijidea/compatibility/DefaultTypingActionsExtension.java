@@ -1,3 +1,4 @@
+// intellij-community/platform/lang-impl/src/com/intellij/codeInsight/editorActions/DefaultTypingActionsExtension.java
 //package com.intellij.codeInsight.editorActions;
 package net.ddns.rkdawenterprises.brief4ijidea.compatibility;
 

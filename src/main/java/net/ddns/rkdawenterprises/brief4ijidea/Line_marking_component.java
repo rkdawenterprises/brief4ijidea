@@ -71,7 +71,7 @@ public class Line_marking_component
 
         s_is_line_marking_mode = true;
 
-        State_component.status_bar_message( "<LINE-MARKING-MODE>" );
+        State_component.status_bar_message_persistent( "<LINE-MARKING-MODE>" );
 
         editor.getCaretModel()
               .getCurrentCaret()
@@ -90,7 +90,7 @@ public class Line_marking_component
         s_is_line_marking_mode = false;
         s_line_selection_origin = null;
 
-        State_component.status_bar_message( null );
+        State_component.status_bar_message_clear();
 
         remove_key_handlers( editor );
 

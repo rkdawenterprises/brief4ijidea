@@ -84,6 +84,7 @@ public class Application_configurable
         modified |= m_settings_ui_component.get_write_all_and_exit_closes_IDEA() != state_component.get_write_all_and_exit_closes_IDEA();
         modified |= m_settings_ui_component.get_do_not_show_virtual_space_setting_dialog() != state_component.get_do_not_show_virtual_space_setting_dialog();
         modified |= m_settings_ui_component.get_show_document_information() != state_component.get_show_document_information();
+        modified |= m_settings_ui_component.get_show_status_bar_messages() != state_component.get_show_status_bar_messages();
         return modified;
     }
 
@@ -106,6 +107,7 @@ public class Application_configurable
         state_component.set_write_all_and_exit_closes_IDEA( m_settings_ui_component.get_write_all_and_exit_closes_IDEA() );
         state_component.set_do_not_show_virtual_space_setting_dialog( m_settings_ui_component.get_do_not_show_virtual_space_setting_dialog() );
         state_component.set_show_document_information( m_settings_ui_component.get_show_document_information() );
+        state_component.set_show_status_bar_messages( m_settings_ui_component.get_show_status_bar_messages() );
     }
 
     /**
@@ -125,6 +127,7 @@ public class Application_configurable
         m_settings_ui_component.set_write_all_and_exit_closes_IDEA( state_component.get_write_all_and_exit_closes_IDEA() );
         m_settings_ui_component.set_do_not_show_virtual_space_setting_dialog( state_component.get_do_not_show_virtual_space_setting_dialog() );
         m_settings_ui_component.set_show_document_information( state_component.get_show_document_information() );
+        m_settings_ui_component.set_show_status_bar_messages( state_component.get_show_status_bar_messages() );
     }
 
     /**

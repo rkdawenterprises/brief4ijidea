@@ -71,7 +71,7 @@ public class Actions_component
 //                fix_keymap_conflicts( s_keymap_file_parsed,
 //                                      brief_keymap );
 
-                State_component.status_bar_message( Localized_messages.message( "keymap.set.to.brief" ) );
+                State_component.status_bar_message_temporary( Localized_messages.message( "keymap.set.to.brief" ) );
             }
             else
             {
@@ -104,7 +104,7 @@ public class Actions_component
             if( default_keymap != null )
             {
                 keymap_manager.setActiveKeymap( default_keymap );
-                State_component.status_bar_message( Localized_messages.message( "keymap.restored.to.0", default_keymap.getName() ) );
+                State_component.status_bar_message_temporary( Localized_messages.message( "keymap.restored.to.0", default_keymap.getName() ) );
             }
         }
 
@@ -298,7 +298,7 @@ public class Actions_component
             }
         }
     }
-    
+
     private static void fix_keymap_conflicts( @NotNull Map<String, Keymap_action_data> keymap_file,
                                               @NotNull KeymapImpl brief_keymap )
     {

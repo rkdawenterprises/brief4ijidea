@@ -8,7 +8,7 @@
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/net.ddns.rkdawenterprises.brief4ijidea.svg)](https://plugins.jetbrains.com/plugin/net.ddns.rkdawenterprises.brief4ijidea)
 
 <!-- Plugin description -->
-## Brief Text Editor Emulator and Keymap for Intellij IDEA
+## Brief Text Editor Emulator and Keymap for IntelliJ IDEA
 This IntelliJ IDEA extension adds key bindings and functionality that attempts to emulate many features of the original BRIEF MS-DOS application. Adds it's home-home-home and end-end-end functionality, line and column marking modes, single key cut, copy, and paste, clipboard swap, as well as most of the original keybindings.
 <!-- Plugin description end -->
 Some history. BRIEF (Basic Re-configurable Interactive Editing Facility) was a popular programmer's text editor in the late 1980s and early 1990s. Developed by UnderWare Inc, it was quite powerful and feature rich for its time. For more information, see the Wikipedia page &quot;<a href="https://en.wikipedia.org/wiki/Brief_(text_editor)" target="_blank">Brief (text editor)</a>&quot; for more information.
@@ -20,7 +20,7 @@ Note! Plugin will not activate until indexing is finished!
 
 - Using IDE built-in plugin system:
 
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "brief4ijidea"</kbd> >
+  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "briefkeymap"</kbd> >
   <kbd>Install Plugin</kbd>
 
 - Manually:

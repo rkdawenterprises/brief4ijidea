@@ -2,7 +2,7 @@ This software includes software from Brief Editor Emulator for IntelliJ IDEA.
 
 https://github.com/rkdawenterprises/brief4ijidea
 
-   Copyright 2019-2023 RKDAW Enterprises and Ralph Williamson
+   Copyright (C) RKDAW Enterprises and Ralph Williamson
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ This software includes software from IntelliJ IDEA Community Edition.
 
 https://github.com/JetBrains/intellij-community
 
-   Copyright 2000-2021 JetBrains s.r.o.
+   Copyright (C) JetBrains s.r.o.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ This software includes software from IdeaVim Vim emulation plugin for IntelliJ P
 
 https://github.com/JetBrains/ideavim
 
-   Copyright (C) 2003-2022 The IdeaVim authors
+   Copyright (C) The IdeaVim authors
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by

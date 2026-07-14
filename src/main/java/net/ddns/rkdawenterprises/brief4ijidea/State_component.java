@@ -33,10 +33,6 @@ import com.intellij.openapi.keymap.Keymap;
 import com.intellij.openapi.keymap.KeymapManagerListener;
 import com.intellij.openapi.keymap.ex.KeymapManagerEx;
 import com.intellij.openapi.keymap.impl.KeymapImpl;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.project.ProjectManager;
-import com.intellij.openapi.wm.StatusBar;
-import com.intellij.openapi.wm.WindowManager;
 import com.intellij.util.xmlb.XmlSerializer;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NonNls;
@@ -70,7 +66,7 @@ public class State_component
         try { set_enabled( false ); }
         catch( Exception exception )
         {
-            System.out.println( "brief4ijidea.State_component.dispose" + exception.getLocalizedMessage() );
+            System.out.println( "brief4ijidea.State_component.dispose: " + exception.getLocalizedMessage() );
         }
     }
 
@@ -183,7 +179,7 @@ public class State_component
                 if( get_check_active_keymap_is_brief() )
                 {
                     set_check_active_keymap_is_brief( false );
-                    status_bar_message( "Startup check for Brief keymap disabled" );
+                    status_bar_message_temporary( "Startup check for Brief keymap disabled" );
                 }
 
                 update_active_keystroke_map();
@@ -210,7 +206,7 @@ public class State_component
                                                                                                       },
                                                                                                       this );
 
-        status_bar_message( "Plugin enabled" );
+        status_bar_message_temporary( "Plugin enabled" );
     }
 
     private void do_disable()
@@ -229,7 +225,7 @@ public class State_component
             m_active_keystroke_map = null;
         }
 
-        status_bar_message( "Plugin disabled" );
+        status_bar_message_temporary( "Plugin disabled" );
     }
 
     public boolean get_enabled() { return m_persisted_state.getEnabled(); }
@@ -298,31 +294,28 @@ public class State_component
         Status_bar_document_information_factory.update_widget();
     }
 
-    public static void status_bar_message( final String message )
+    public boolean get_show_status_bar_messages() { return m_persisted_state.getShow_status_bar_messages(); }
+    public void set_show_status_bar_messages( boolean show_messages )
     {
-        if( message != null )
-        {
-            System.out.println( "brief4ijidea.State_component.status_bar_message: " + message );
-        }
+        m_persisted_state.setShow_status_bar_messages( show_messages );
+        Status_bar_messages_factoryKt.status_bar_messages_update_widget();
+    }
 
-        Project[] projects = ProjectManager.getInstance()
-                                           .getOpenProjects();
-        for( Project project : projects )
-        {
-            StatusBar bar = WindowManager.getInstance()
-                                         .getStatusBar( project );
-            if( bar != null )
-            {
-                if( message == null || message.length() == 0 )
-                {
-                    bar.setInfo( "" );
-                }
-                else
-                {
-                    bar.setInfo( Localized_messages.message( "status.bar.text.brief", message ) );
-                }
-            }
-        }
+    public static void status_bar_message_persistent( final @NotNull String message )
+    {
+        System.out.println( "brief4ijidea.State_component.status_bar_message_persistent: " + message );
+        Status_bar_messages_factoryKt.status_bar_messages_message_persistent( message );
+    }
+
+    public static void status_bar_message_temporary( final @NotNull String message )
+    {
+        System.out.println( "brief4ijidea.State_component.status_bar_message_temporary: " + message );
+        Status_bar_messages_factoryKt.status_bar_messages_message_temporary( message );
+    }
+
+    public static void status_bar_message_clear()
+    {
+        Status_bar_messages_factoryKt.status_bar_messages_message_clear();
     }
 
     public static PluginId get_plugin_id()

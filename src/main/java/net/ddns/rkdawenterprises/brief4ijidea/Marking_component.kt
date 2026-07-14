@@ -93,7 +93,7 @@ object Marking_component
 
         if(!is_noninclusive)
         {
-            State_component.status_bar_message("<MARKING-MODE>");
+            State_component.status_bar_message_persistent("<MARKING-MODE>");
             editor.caretModel.moveCaretRelatively(1,
                                                   0,
                                                   true,
@@ -102,7 +102,7 @@ object Marking_component
         }
         else
         {
-            State_component.status_bar_message("<NONINCLUSIVE-MARKING-MODE>");
+            State_component.status_bar_message_persistent("<NONINCLUSIVE-MARKING-MODE>");
         }
     }
 
@@ -113,7 +113,7 @@ object Marking_component
         s_is_marking_mode_noninclusive = false;
         s_selection_origin = null;
 
-        State_component.status_bar_message(null);
+        State_component.status_bar_message_clear();
 
         remove_key_handlers(editor);
 

@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2019-2022 RKDAW Enterprises and Ralph Williamson
+  ~ Copyright (c) 2019-2026 RKDAW Enterprises and Ralph Williamson
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -20,8 +20,7 @@
     <name>Brief Emulator</name>
     <vendor email="rkdawenterprises@gmail.com" url="http://rkdawenterprises.ddns.net">RKDAW Enterprises</vendor>
 
-    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
-         on how to target different products -->
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
 
     <resource-bundle>messages.Localized_messages</resource-bundle>
@@ -34,16 +33,18 @@
         <applicationConfigurable parentId="editor"
                                  instance="net.ddns.rkdawenterprises.brief4ijidea.Application_configurable"
                                  id="net.ddns.rkdawenterprises.brief4ijidea.Application_configurable"
-                                 displayName="Brief Editor Emulator Settings"/>
+                                 displayName="Brief Emulator Settings"/>
 
         <statusBarWidgetFactory implementation="net.ddns.rkdawenterprises.brief4ijidea.Status_bar_icon_factory"
                                 id="Brief4ijidea_status_bar_brief_for_ij_idea_factory_ID"/>
         <statusBarWidgetFactory implementation="net.ddns.rkdawenterprises.brief4ijidea.Status_bar_document_information_factory"
                                 id="Brief4ijidea_status_bar_document_information_factory_ID"/>
+        <statusBarWidgetFactory implementation="net.ddns.rkdawenterprises.brief4ijidea.Status_bar_messages_factory"
+                                id="Brief4ijidea_status_bar_messages_factory_ID"/>
 
         <bundledKeymap file="Brief.xml"/>
 
-        <customPasteProvider implementation="net.ddns.rkdawenterprises.brief4ijidea.Paste_handler" order="first"/>
+        <customPasteProvider implementation="net.ddns.rkdawenterprises.brief4ijidea.compatibility.PasteReferenceProvider" order="first"/>
 
         <actionPromoter implementation="net.ddns.rkdawenterprises.brief4ijidea.Actions_promoter" order="last"/>
     </extensions>
@@ -51,7 +52,7 @@
     <actions>
         <action id="net.ddns.rkdawenterprises.brief4ijidea.actions.Enabled_toggle_action"
                 class="net.ddns.rkdawenterprises.brief4ijidea.actions.Enabled_toggle_action">
-        <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
     </actions>
 </idea-plugin>

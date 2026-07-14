@@ -21,10 +21,17 @@
                "unused",
                "RedundantSemicolon",
                "UsePropertyAccessSyntax",
-               "KDocUnresolvedReference")
+               "KDocUnresolvedReference",
+               "ClassName",
+               "FunctionName",
+               "PropertyName",
+               "PackageName")
 
 package net.ddns.rkdawenterprises.brief4ijidea
 
+import com.intellij.CommonBundle
+import com.intellij.ide.actions.ShowSettingsUtilImpl
+import com.intellij.openapi.application.ApplicationBundle
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.command.undo.UndoManager
 import com.intellij.openapi.editor.Editor
@@ -32,9 +39,14 @@ import com.intellij.openapi.editor.EditorCoreUtil
 import com.intellij.openapi.editor.LogicalPosition
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DoNotAskOption
-import com.intellij.openapi.ui.MessageDialogBuilder.Companion.okCancel
+import com.intellij.openapi.ui.ExitActionType
+import com.intellij.openapi.ui.messages.MessageDialog
+import com.intellij.util.ui.UIUtil
+import net.ddns.rkdawenterprises.brief4ijidea.compatibility.AlertMessagesManager
+import java.awt.Component
 import java.awt.Rectangle
 import java.util.*
+import javax.swing.Icon
 
 fun to_nearest_visual_line_base(editor: Editor,
                                 y: Int): Int
@@ -92,7 +104,7 @@ fun stop_all_marking_modes(editor: Editor,
                                                   remove_selection)
     Column_marking_component.stop_column_marking_mode(editor,
                                                       remove_selection)
-    State_component.status_bar_message(null)
+    State_component.status_bar_message_clear()
     if(remove_selection)
     {
         if(has_selection(editor))
@@ -129,13 +141,15 @@ fun editor_lost_focus(editor: Editor)
                            false)
 }
 
-fun toggle_marking_mode(editor: Editor, is_noninclusive: Boolean = false)
+fun toggle_marking_mode(editor: Editor,
+                        is_noninclusive: Boolean = false)
 {
     Line_marking_component.stop_line_marking_mode(editor,
                                                   true)
     Column_marking_component.stop_column_marking_mode(editor,
                                                       true)
-    Marking_component.toggle_marking_mode(editor, is_noninclusive)
+    Marking_component.toggle_marking_mode(editor,
+                                          is_noninclusive)
 }
 
 fun toggle_line_marking_mode(editor: Editor)
@@ -191,7 +205,8 @@ fun get_editor_content_visible_area(editor: Editor): Rectangle
     return if(EditorCoreUtil.isTrueSmoothScrollingEnabled()) model.visibleAreaOnScrollingFinished else model.visibleArea;
 }
 
-fun virtual_space_setting_warning(editor: Editor)
+fun virtual_space_setting_warning(project: Project,
+                                  editor: Editor)
 {
     val do_not_show_virtual_space_setting_dialog = State_component.get_instance()
         .get_do_not_show_virtual_space_setting_dialog();
@@ -201,39 +216,28 @@ fun virtual_space_setting_warning(editor: Editor)
         if(!editor_settings.isVirtualSpace)
         {
             ApplicationManager.getApplication()
-                .invokeLater {
-                    warning_message("Change Settings for this Command",
-                        Localized_messages.message("you.must.enable.settings.editor.general.virtual.space.after.the.end.of.line.for.some.commands.right.side.of.window.and.column.marking.mode.to.work.properly"),
-                        object : DoNotAskOption.Adapter()
+                .invokeLater()
+                {
+                    val option = object: DoNotAskOption.Adapter()
+                    {
+                        override fun rememberChoice(isSelected: Boolean,
+                                                    exitCode: Int)
                         {
-                            /**
-                             * Save the state of the checkbox in the settings, or perform some other related action.
-                             * This method is called right after the dialog is [closed][.close].
-                             * <br></br>
-                             * Note that this method won't be called in the case when the dialog is closed by [Cancel][.CANCEL_EXIT_CODE]
-                             * if [saving the choice on cancel is disabled][.shouldSaveOptionsOnCancel] (which is by default).
-                             *
-                             * @param isSelected true if user selected "don't show again".
-                             * @param exitCode   the [exit code][.getExitCode] of the dialog.
-                             * @see .shouldSaveOptionsOnCancel
-                             */
-                            /**
-                             * Save the state of the checkbox in the settings, or perform some other related action.
-                             * This method is called right after the dialog is [closed][.close].
-                             * <br></br>
-                             * Note that this method won't be called in the case when the dialog is closed by [Cancel][.CANCEL_EXIT_CODE]
-                             * if [saving the choice on cancel is disabled][.shouldSaveOptionsOnCancel] (which is by default).
-                             *
-                             * @param isSelected true if user selected "don't show again".
-                             * @param exitCode   the [exit code][.getExitCode] of the dialog.
-                             * @see .shouldSaveOptionsOnCancel
-                             */
-                            override fun rememberChoice(isSelected: Boolean,
-                                                        exitCode: Int)
-                            {
-                                State_component.get_instance()._do_not_show_virtual_space_setting_dialog = isSelected;
-                            }
-                        });
+                            State_component.get_instance()._do_not_show_virtual_space_setting_dialog =
+                                isSelected;
+                        }
+                    };
+                    val warning_dialog_builder =
+                    Warning_dialog_builder(Localized_messages["change.settings.for.this.command"],
+                                           Localized_messages.message("you.must.enable.settings.editor.general.virtual.space.after.the.end.of.line.for.some.commands.right.side.of.window.and.column.marking.mode.to.work.properly"))
+                        .do_not_ask(option)
+                        .add_a_button(Localized_messages["settings"]);
+                    val exit_code = warning_dialog_builder.guess_window_and_ask();
+                    if(exit_code == 0)
+                    {
+                        ShowSettingsUtilImpl.showSettingsDialog(project, "editor.general",
+                                                                ApplicationBundle.message("checkbox.allow.placement.of.caret.after.end.of.line"));
+                    }
                 }
         }
     }
@@ -243,8 +247,120 @@ fun warning_message(title: String,
                     message: String,
                     option: DoNotAskOption.Adapter? = null): Boolean
 {
-    return okCancel(title, message)
-        .doNotAsk(option)
-        .asWarning()
-        .guessWindowAndAsk();
+    return Warning_dialog_builder(title,
+                                  message)
+        .do_not_ask(option)
+        .guess_window_and_ask() == 0;
+}
+
+class Warning_dialog_builder(val title: String,
+                             val message: String)
+{
+    var buttons = mutableListOf(CommonBundle.getOkButtonText(),
+                                CommonBundle.getCancelButtonText());
+    var buttons_action_type = mutableListOf(ExitActionType.YES,
+                                            ExitActionType.NO);
+    var default_button: String = buttons[0];
+    var focused_button: String = buttons[0];
+    var icon: Icon? = null;
+    var do_not_ask_option: DoNotAskOption? = null;
+
+    fun default_button(default_button_name: String): Warning_dialog_builder
+    {
+        default_button = default_button_name;
+        return this;
+    }
+
+    fun focused_button(focused_button_name: String): Warning_dialog_builder
+    {
+        focused_button = focused_button_name;
+        return this;
+    }
+
+    fun add_a_button(button_name: String,
+                     is_default: Boolean = false,
+                     is_focused: Boolean = false,
+                     exitActionType: ExitActionType = ExitActionType.UNDEFINED): Warning_dialog_builder
+    {
+        buttons.add(0, button_name);
+        if(is_default) default_button = button_name;
+        if(is_focused) focused_button = button_name;
+        buttons_action_type.add(0, exitActionType);
+        return this;
+    }
+
+    fun do_not_ask(do_not_ask_option: DoNotAskOption?): Warning_dialog_builder
+    {
+        this.do_not_ask_option = do_not_ask_option
+        return this;
+    }
+
+    fun guess_window_and_ask(): Int = show(project = null,
+                                           parent_component = null);
+
+    fun show(project: Project?,
+             parent_component: Component?): Int
+    {
+        val default_option_index = buttons.indexOf(default_button);
+        val focused_option_index = buttons.indexOf(focused_button);
+
+        return showMessageDialog(project = project,
+                                 parentComponent = parent_component,
+                                 message = message,
+                                 title = title,
+                                 options = buttons.toTypedArray(),
+                                 defaultOptionIndex = default_option_index,
+                                 focusedOptionIndex = focused_option_index,
+                                 icon = UIUtil.getWarningIcon(),
+                                 doNotAskOption = do_not_ask_option,
+                                 exitActionTypes = buttons_action_type.toTypedArray());
+    }
+
+    fun showMessageDialog(project: Project?,
+                          parentComponent: Component? = null,
+                          message: String,
+                          title: String?,
+                          options: Array<String>,
+                          defaultOptionIndex: Int = 0,
+                          focusedOptionIndex: Int = -1,
+                          icon: Icon?,
+                          doNotAskOption: DoNotAskOption?,
+                          alwaysUseIdeaUI: Boolean = true,
+                          helpId: String? = null,
+                          invocationPlace: String? = null,
+                          exitActionTypes: Array<ExitActionType> = emptyArray()): Int
+    {
+        val alertMessagesManager = AlertMessagesManager.getInstanceIfPossible()
+        if(alertMessagesManager != null)
+        {
+            return alertMessagesManager.showMessageDialog(project,
+                                                          parentComponent,
+                                                          message,
+                                                          title,
+                                                          options,
+                                                          defaultOptionIndex,
+                                                          focusedOptionIndex,
+                                                          icon,
+                                                          doNotAskOption,
+                                                          helpId,
+                                                          invocationPlace,
+                                                          exitActionTypes)
+        }
+
+        val dialog = MessageDialog(project,
+                                   parentComponent,
+                                   message,
+                                   title,
+                                   options,
+                                   defaultOptionIndex,
+                                   focusedOptionIndex,
+                                   icon,
+                                   doNotAskOption,
+                                   false,
+                                   helpId,
+                                   invocationPlace,
+                                   exitActionTypes);
+        dialog.show();
+        return dialog.getExitCode();
+    }
 }

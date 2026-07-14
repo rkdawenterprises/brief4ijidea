@@ -26,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static net.ddns.rkdawenterprises.brief4ijidea.MiscellaneousKt.*;
 import static net.ddns.rkdawenterprises.brief4ijidea.MiscellaneousKt.virtual_space_setting_warning;
-import static net.ddns.rkdawenterprises.brief4ijidea.MiscellaneousKt.warning_message;
+//import static net.ddns.rkdawenterprises.brief4ijidea.MiscellaneousKt.warning_message;
 
 @SuppressWarnings({ "ComponentNotRegistered", "unused" })
 public class Column_mark_action
@@ -59,7 +59,8 @@ public class Column_mark_action
             return;
         }
 
-        virtual_space_setting_warning( editor );
+        virtual_space_setting_warning( project,
+                                       editor );
 
         toggle_column_marking_mode( editor );
     }

@@ -42,6 +42,6 @@ class Startup_activity : ProjectActivity
 
         m_initialized = true;
 
-        State_component.get_instance().initialize()
+        State_component.get_instance().initialize();
     }
 }

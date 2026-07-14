@@ -79,5 +79,11 @@ data class Persisted_state
      * Shows additional document information (offsets, lengths) in the status bar.
      * Uncheck if you don't want to see extra document information in the status bar.
      */
-    var show_document_information: Boolean = false
+    var show_document_information: Boolean = false,
+
+    /**
+     * Shows status messages in the status bar.
+     * Uncheck if you don't want to see status messages in the status bar.
+     */
+    var show_status_bar_messages: Boolean = true
 )

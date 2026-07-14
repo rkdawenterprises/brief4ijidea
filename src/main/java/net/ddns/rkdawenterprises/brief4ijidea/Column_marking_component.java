@@ -101,7 +101,7 @@ public class Column_marking_component
 
         s_is_column_marking_mode = true;
 
-        State_component.status_bar_message( Localized_messages.message( "column.marking.mode" ) );
+        State_component.status_bar_message_persistent( Localized_messages.message( "column.marking.mode" ) );
 
         s_column_selection_origin = editor.getCaretModel()
                                           .getLogicalPosition();
@@ -123,7 +123,7 @@ public class Column_marking_component
         s_is_column_marking_mode = false;
         s_column_selection_origin = null;
 
-        State_component.status_bar_message( null );
+        State_component.status_bar_message_clear();
 
         remove_key_handlers( editor );
 
@@ -564,7 +564,7 @@ public class Column_marking_component
     {
         Column_mode_block_data block_data = Column_mode_block_data.deserialize_from_JSON( block_JSON );
         if( block_data == null ) return;
-        
+
         ApplicationManager.getApplication()
                           .runWriteAction( () ->
                                            {

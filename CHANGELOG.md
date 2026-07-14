@@ -1,7 +1,14 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# Brief Emulator for Intellij IDEA
+# Brief Editor Emulator for IntelliJ IDEA
 
+## [1.2.1] - 2026-07-13
+### Fixed
+- Reworked status bar messages to get it functional.
+### Changed
+- Updated dependencies to latest versions.
+- Made virtual space dialog more user-friendly.
+ 
 ## [1.1.4] - 2025-08-05
 ### Fixed
 - Removed use of internal API's ActionManagerImpl and FormattingServiceUtil.

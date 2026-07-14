@@ -21,6 +21,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.VisualPosition;
 import com.intellij.openapi.editor.impl.EditorImpl;
+import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -50,7 +51,11 @@ public class Right_side_of_window_action
         Editor editor = e.getData( CommonDataKeys.EDITOR );
         if( !( editor instanceof EditorImpl ) ) return;
 
-        virtual_space_setting_warning( editor );
+        final Project project = e.getData( CommonDataKeys.PROJECT );
+        if( project == null ) return;
+
+        virtual_space_setting_warning( project,
+                                       editor );
 
         Rectangle visible_area = get_editor_content_visible_area( editor );
 

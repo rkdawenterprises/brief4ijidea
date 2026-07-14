@@ -44,7 +44,7 @@ import java.util.List;
 public class Status_bar_document_information_factory
         implements StatusBarWidgetFactory {
     public static final @NonNls String ID = "Brief4ijidea_status_bar_document_information_factory_ID";
-    public static final String DISPLAY_NAME = Localized_messages.message("document.information");
+    public static final String DISPLAY_NAME = Localized_messages.message("brief.emulator.document.information");
 
     private final List<Status_bar_document_information> m_widgets = new ArrayList<>();
 

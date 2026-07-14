@@ -19,6 +19,7 @@ package net.ddns.rkdawenterprises.brief4ijidea;
 
 //import com.intellij.openapi.Disposable;
 //import com.intellij.openapi.util.Disposer;
+
 import com.intellij.ui.components.JBCheckBox;
 import com.intellij.util.ui.FormBuilder;
 
@@ -38,6 +39,7 @@ public class Settings_UI_component
     private final JBCheckBox m_write_all_and_exit_closes_IDEA = new JBCheckBox( Localized_messages.message( "checkbox.write.all.exit.command.closes.idea" ) );
     private final JBCheckBox m_do_not_show_virtual_space_setting_dialog = new JBCheckBox( Localized_messages.message( "checkbox.do.not.show.virtual.space.setting.dialog.again" ) );
     private final JBCheckBox m_show_document_information = new JBCheckBox( Localized_messages.message( "checkbox.show.document.information.in.status.bar" ) );
+    private final JBCheckBox m_show_status_bar_messages = new JBCheckBox( Localized_messages.message( "checkbox.show.status.messages.in.status.bar" ) );
 
     public Settings_UI_component()
     {
@@ -52,29 +54,32 @@ public class Settings_UI_component
         m_write_all_and_exit_closes_IDEA.setToolTipText( Localized_messages.message( "write.all.and.exit.command.will.close.the.idea.this.is.original.brief.functionality.uncheck.this.if.you.want.to.close.only.the.editors.but.keep.the.idea.running" ) );
         m_do_not_show_virtual_space_setting_dialog.setToolTipText( Localized_messages.message( "disables.showing.of.the.virtual.space.setting.dialog.again.when.initiating.the.right.side.of.window.action.uncheck.if.you.want.to.see.this.dialog.again" ) );
         m_show_document_information.setToolTipText( Localized_messages.message( "shows.additional.document.information.offsets.lengths.in.the.status.bar.uncheck.if.you.don.t.want.to.see.extra.document.information.in.the.status.bar" ) );
+        m_show_status_bar_messages.setToolTipText( Localized_messages.message( "shows.status.messages.in.the.status.bar.bar.uncheck.if.you.don.t.want.to.see.status.messages.in.the.status.bar" ) );
 
         myMainPanel = FormBuilder.createFormBuilder()
-                                 .addComponent( m_enabled,
-                                                1 )
-                                 .addComponent( m_show_icon_in_status_bar,
-                                                1 )
-                                 .addComponent( m_paste_lines_at_home,
-                                                1 )
-                                 .addComponent( m_use_brief_home,
-                                                1 )
-                                 .addComponent( m_check_active_keymap_is_brief,
-                                                1 )
-                                 .addComponent( m_exit_only_closes_editor,
-                                                1 )
-                                 .addComponent( m_write_all_and_exit_closes_IDEA,
-                                                1 )
-                                 .addComponent( m_do_not_show_virtual_space_setting_dialog,
-                                                1 )
-                                 .addComponent( m_show_document_information,
-                                                1 )
-                                 .addComponentFillVertically( new JPanel(),
-                                                              0 )
-                                 .getPanel();
+                .addComponent( m_enabled,
+                               1 )
+                .addComponent( m_show_icon_in_status_bar,
+                               1 )
+                .addComponent( m_paste_lines_at_home,
+                               1 )
+                .addComponent( m_use_brief_home,
+                               1 )
+                .addComponent( m_check_active_keymap_is_brief,
+                               1 )
+                .addComponent( m_exit_only_closes_editor,
+                               1 )
+                .addComponent( m_write_all_and_exit_closes_IDEA,
+                               1 )
+                .addComponent( m_do_not_show_virtual_space_setting_dialog,
+                               1 )
+                .addComponent( m_show_document_information,
+                               1 )
+                .addComponent( m_show_status_bar_messages,
+                               1 )
+                .addComponentFillVertically( new JPanel(),
+                                             0 )
+                .getPanel();
     }
 
     /**
@@ -82,7 +87,6 @@ public class Settings_UI_component
      */
 //    @Override
 //    public void dispose() { }
-
     public JPanel getPanel()
     {
         return myMainPanel;
@@ -97,18 +101,27 @@ public class Settings_UI_component
     {
         return m_enabled.isSelected();
     }
+
     public void set_enabled( boolean check )
     {
         m_enabled.setSelected( check );
     }
 
-    public boolean get_show_icon_in_status_bar() { return m_show_icon_in_status_bar.isSelected(); }
-    public void set_show_icon_in_status_bar( boolean check ) { m_show_icon_in_status_bar.setSelected( check ); }
+    public boolean get_show_icon_in_status_bar()
+    {
+        return m_show_icon_in_status_bar.isSelected();
+    }
+
+    public void set_show_icon_in_status_bar( boolean check )
+    {
+        m_show_icon_in_status_bar.setSelected( check );
+    }
 
     public boolean get_paste_lines_at_home()
     {
         return m_paste_lines_at_home.isSelected();
     }
+
     public void set_paste_lines_at_home( boolean check )
     {
         m_paste_lines_at_home.setSelected( check );
@@ -118,6 +131,7 @@ public class Settings_UI_component
     {
         return m_use_brief_home.isSelected();
     }
+
     public void set_use_brief_home( boolean check )
     {
         m_use_brief_home.setSelected( check );
@@ -127,26 +141,59 @@ public class Settings_UI_component
     {
         return m_check_active_keymap_is_brief.isSelected();
     }
-    public void set_check_active_keymap_is_brief( boolean check ) { m_check_active_keymap_is_brief.setSelected( check ); }
+
+    public void set_check_active_keymap_is_brief( boolean check )
+    {
+        m_check_active_keymap_is_brief.setSelected( check );
+    }
 
     public boolean get_exit_only_closes_editor()
     {
         return m_exit_only_closes_editor.isSelected();
     }
-    public void set_exit_only_closes_editor( boolean check ) { m_exit_only_closes_editor.setSelected( check ); }
+
+    public void set_exit_only_closes_editor( boolean check )
+    {
+        m_exit_only_closes_editor.setSelected( check );
+    }
 
     public boolean get_write_all_and_exit_closes_IDEA()
     {
         return m_write_all_and_exit_closes_IDEA.isSelected();
     }
-    public void set_write_all_and_exit_closes_IDEA( boolean check ) { m_write_all_and_exit_closes_IDEA.setSelected( check ); }
 
-    public boolean get_do_not_show_virtual_space_setting_dialog() { return m_do_not_show_virtual_space_setting_dialog.isSelected(); }
-    public void set_do_not_show_virtual_space_setting_dialog( boolean check ) { m_do_not_show_virtual_space_setting_dialog.setSelected( check ); }
+    public void set_write_all_and_exit_closes_IDEA( boolean check )
+    {
+        m_write_all_and_exit_closes_IDEA.setSelected( check );
+    }
+
+    public boolean get_do_not_show_virtual_space_setting_dialog()
+    {
+        return m_do_not_show_virtual_space_setting_dialog.isSelected();
+    }
+
+    public void set_do_not_show_virtual_space_setting_dialog( boolean check )
+    {
+        m_do_not_show_virtual_space_setting_dialog.setSelected( check );
+    }
 
     public boolean get_show_document_information()
     {
         return m_show_document_information.isSelected();
     }
-    public void set_show_document_information( boolean check ) { m_show_document_information.setSelected( check ); }
+
+    public void set_show_document_information( boolean check )
+    {
+        m_show_document_information.setSelected( check );
+    }
+
+    public boolean get_show_status_bar_messages()
+    {
+        return m_show_status_bar_messages.isSelected();
+    }
+
+    public void set_show_status_bar_messages( boolean check )
+    {
+        m_show_status_bar_messages.setSelected( check );
+    }
 }

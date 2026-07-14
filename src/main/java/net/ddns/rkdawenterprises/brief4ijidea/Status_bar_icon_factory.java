@@ -50,7 +50,7 @@ public class Status_bar_icon_factory
         implements StatusBarWidgetFactory
 {
     public static final @NonNls String ID = "Brief4ijidea_status_bar_brief_for_ij_idea_factory_ID";
-    public static final String DISPLAY_NAME = Localized_messages.message( "action.brief.editor.emulator.text" );
+    public static final String DISPLAY_NAME = Localized_messages.message( "brief.emulator" );
 
     /**
      * @return Widget identifier. Used to store visibility settings.

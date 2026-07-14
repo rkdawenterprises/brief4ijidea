@@ -25,8 +25,8 @@ import com.intellij.openapi.project.DumbAwareToggleAction
 import net.ddns.rkdawenterprises.brief4ijidea.Localized_messages
 import net.ddns.rkdawenterprises.brief4ijidea.State_component
 
-class Enabled_toggle_action : DumbAwareToggleAction(Localized_messages.message("action.brief.editor.emulator.text"),
-                                                    Localized_messages.message("action.enable.or.disable.brief.editor.emulation.plugin.description"),
+class Enabled_toggle_action : DumbAwareToggleAction(Localized_messages.message("enable.brief.emulator"),
+                                                    Localized_messages.message("enable.or.disable.brief.emulation.plugin"),
                                                     null)
 {
     /**
