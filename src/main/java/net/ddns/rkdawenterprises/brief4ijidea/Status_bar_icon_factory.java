@@ -173,6 +173,7 @@ public class Status_bar_icon_factory
 
         for( Project project : project_manager.getOpenProjects() )
         {
+            //noinspection IncorrectServiceRetrieving
             StatusBarWidgetsManager status_bar_widgets_manager = project.getService( StatusBarWidgetsManager.class );
             if( status_bar_widgets_manager != null )
             {

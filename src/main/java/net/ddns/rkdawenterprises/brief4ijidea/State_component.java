@@ -18,6 +18,7 @@
 package net.ddns.rkdawenterprises.brief4ijidea;
 
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
+import com.intellij.ide.plugins.PluginManager;
 import com.intellij.ide.plugins.PluginManagerCore;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.ApplicationManager;
@@ -28,6 +29,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.ex.EditorEventMulticasterEx;
 import com.intellij.openapi.editor.ex.FocusChangeListener;
+import com.intellij.openapi.extensions.PluginDescriptor;
 import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.keymap.Keymap;
 import com.intellij.openapi.keymap.KeymapManagerListener;
@@ -41,9 +43,15 @@ import org.jetbrains.annotations.Nullable;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static net.ddns.rkdawenterprises.brief4ijidea.MiscellaneousKt.editor_gained_focus;
 import static net.ddns.rkdawenterprises.brief4ijidea.MiscellaneousKt.editor_lost_focus;
@@ -298,24 +306,24 @@ public class State_component
     public void set_show_status_bar_messages( boolean show_messages )
     {
         m_persisted_state.setShow_status_bar_messages( show_messages );
-        Status_bar_messages_factoryKt.status_bar_messages_update_widget();
+        Status_bar_messages_factory.update_widget();
     }
 
     public static void status_bar_message_persistent( final @NotNull String message )
     {
         System.out.println( "brief4ijidea.State_component.status_bar_message_persistent: " + message );
-        Status_bar_messages_factoryKt.status_bar_messages_message_persistent( message );
+        Status_bar_messages_factory.message_persistent( message );
     }
 
     public static void status_bar_message_temporary( final @NotNull String message )
     {
         System.out.println( "brief4ijidea.State_component.status_bar_message_temporary: " + message );
-        Status_bar_messages_factoryKt.status_bar_messages_message_temporary( message );
+        Status_bar_messages_factory.message_temporary( message );
     }
 
     public static void status_bar_message_clear()
     {
-        Status_bar_messages_factoryKt.status_bar_messages_message_clear();
+        Status_bar_messages_factory.message_clear();
     }
 
     public static PluginId get_plugin_id()
@@ -326,10 +334,41 @@ public class State_component
     public static String get_version()
     {
         String version = "N/A";
-        IdeaPluginDescriptor plugin = PluginManagerCore.getPlugin( get_plugin_id() );
-        if( ( plugin != null ) && ( plugin.getVersion() != null ) )
+
+        // TODO: They moved this API to internal for 262. Notes say they will eventually provide an external API.
+//        IdeaPluginDescriptor plugin = PluginManagerCore.getPlugin( get_plugin_id() );
+//        if( ( plugin != null ) && ( plugin.getVersion() != null ) )
+//        {
+//            version = plugin.getVersion();
+//        }
+
+        // TODO: So for now, we do it the hard way.
+        try( InputStream input_stream = State_component.class.getResourceAsStream( "/META-INF/plugin.xml") )
         {
-            version = plugin.getVersion();
+            if( input_stream != null )
+            {
+                try( InputStreamReader input_stream_reader = new InputStreamReader( input_stream, StandardCharsets.UTF_8 );
+                     BufferedReader buffered_reader = new BufferedReader( input_stream_reader))
+                {
+                    final String regex = "<version>(.*?)<\\/version>";
+                    final Pattern pattern = Pattern.compile( regex);
+                    for (String line; (line = buffered_reader.readLine()) != null;)
+                    {
+                        final Matcher matcher = pattern.matcher( line );
+                        if( matcher.find() && ( matcher.groupCount() == 1 ))
+                        {
+                            String group1 = matcher.group(1);
+                            if( ( group1 != null ) && !group1.isBlank() )
+                            {
+                                version = group1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        catch( IOException ignored )
+        {
         }
 
         return version;

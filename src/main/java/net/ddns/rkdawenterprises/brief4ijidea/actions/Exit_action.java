@@ -18,10 +18,12 @@ package net.ddns.rkdawenterprises.brief4ijidea.actions;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.newvfs.impl.VirtualFileImpl;
 import com.intellij.psi.PsiFile;
 import net.ddns.rkdawenterprises.brief4ijidea.State_component;
@@ -48,21 +50,18 @@ public class Exit_action
     @Override
     public void actionPerformed( @NotNull AnActionEvent e )
     {
-        /// If unable to determine file modification status, ask to save anyway.
+        // If unable to determine file modification status, ask to save anyway.
         boolean is_modified = true;
         String file_name = null;
 
         final Project project = e.getData( CommonDataKeys.PROJECT );
         final PsiFile a_PSI_file = e.getData( CommonDataKeys.PSI_FILE );
-        if( ( project != null ) && ( a_PSI_file != null ) )
+        final VirtualFile virtual_file = e.getData( PlatformDataKeys.VIRTUAL_FILE);
+        if( ( project != null ) && ( a_PSI_file != null ) && ( virtual_file != null ))
         {
-            final VirtualFileImpl virtual_file = (VirtualFileImpl)a_PSI_file.getVirtualFile();
-            if( virtual_file != null )
-            {
-                file_name = virtual_file.getName();
-                if( !is_file_modified( project,
-                                       virtual_file ) ) is_modified = false;
-            }
+            file_name = virtual_file.getName();
+            if( !is_file_modified( project,
+                                   virtual_file ) ) is_modified = false;
         }
 
         if( is_modified )
@@ -88,7 +87,7 @@ public class Exit_action
     }
 
     public static boolean is_file_modified( Project project,
-                                            VirtualFileImpl file )
+                                            VirtualFile file )
     {
         FileEditorManager file_editor_manager = FileEditorManager.getInstance( project );
         FileEditor[] editors = file_editor_manager.getAllEditors( file );

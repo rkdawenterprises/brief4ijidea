@@ -2,9 +2,10 @@
 
 # Brief Editor Emulator for IntelliJ IDEA
 
-## [1.2.1] - 2026-07-13
+## [1.2.2] - 2026-07-13
 ### Fixed
-- Reworked status bar messages to get it functional.
+- Reworked status bar messages to get it functional again.
+- Reworked some deprecated API issues.
 ### Changed
 - Updated dependencies to latest versions.
 - Made virtual space dialog more user-friendly.

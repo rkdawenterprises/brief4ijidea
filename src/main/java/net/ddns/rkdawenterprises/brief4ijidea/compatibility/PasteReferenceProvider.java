@@ -20,6 +20,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import net.ddns.rkdawenterprises.brief4ijidea.Column_marking_component;
+import net.ddns.rkdawenterprises.brief4ijidea.Localized_messages;
 import net.ddns.rkdawenterprises.brief4ijidea.State_component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -138,7 +139,7 @@ public final class PasteReferenceProvider implements PasteProvider
                                                                                                                                          dataContext );
 //      provider.insertQualifiedName(fqn, element, editor, project);
                                                                                                                  } ),
-                                                       IdeBundle.message( "command.pasting.reference" ),
+                                                       Localized_messages.message( "command.pasting.reference" ),
                                                        null );
     }
 

@@ -107,6 +107,7 @@ public class Status_bar_document_information_factory
         if (status_bar_widget_factory == null) return;
 
         for (Project project : project_manager.getOpenProjects()) {
+            //noinspection IncorrectServiceRetrieving
             StatusBarWidgetsManager status_bar_widgets_manager = project.getService(StatusBarWidgetsManager.class);
             if (status_bar_widgets_manager != null) {
                 status_bar_widgets_manager.updateWidget(status_bar_widget_factory);

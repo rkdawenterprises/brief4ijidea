@@ -327,7 +327,6 @@ class Warning_dialog_builder(val title: String,
                           doNotAskOption: DoNotAskOption?,
                           alwaysUseIdeaUI: Boolean = true,
                           helpId: String? = null,
-                          invocationPlace: String? = null,
                           exitActionTypes: Array<ExitActionType> = emptyArray()): Int
     {
         val alertMessagesManager = AlertMessagesManager.getInstanceIfPossible()
@@ -343,7 +342,7 @@ class Warning_dialog_builder(val title: String,
                                                           icon,
                                                           doNotAskOption,
                                                           helpId,
-                                                          invocationPlace,
+                                                          null,
                                                           exitActionTypes)
         }
 
@@ -358,7 +357,7 @@ class Warning_dialog_builder(val title: String,
                                    doNotAskOption,
                                    false,
                                    helpId,
-                                   invocationPlace,
+                                   null,
                                    exitActionTypes);
         dialog.show();
         return dialog.getExitCode();

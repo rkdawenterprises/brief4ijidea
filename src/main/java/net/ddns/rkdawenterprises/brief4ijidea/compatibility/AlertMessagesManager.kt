@@ -149,7 +149,7 @@ class AlertDialog(project: Project?,
   init {
     title = myTitle
     setDoNotAskOption(doNotAskOption)
-    setInvocationPlace(invocationPlace)
+//    setInvocationPlace(invocationPlace)
 
     if (myIsTitleComponent && !SystemInfoRt.isMac) {
       myCloseButton = object : InplaceButton(IconButton(null, AllIcons.Windows.CloseActive, null, null), {
@@ -309,7 +309,6 @@ class AlertDialog(project: Project?,
       myParent!!.add(component, 0)
     }
 
-    @Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
     override fun addLayoutComponent(name: String?, comp: Component) {
       if (myParent == null) {
         myParent = comp.parent
