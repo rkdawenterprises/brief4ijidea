@@ -61,7 +61,7 @@ import static net.ddns.rkdawenterprises.brief4ijidea.MiscellaneousKt.editor_lost
  * define the name of the data and the file name where these persistent application settings are stored.
  */
 @State(name = "brief4ijidea_settings",
-        storages = { @Storage("$APP_CONFIG$/brief4ijidea_settings.xml") })
+        storages = { @Storage("brief4ijidea_settings.xml") })
 public class State_component
         implements PersistentStateComponent<Persisted_state>, Disposable
 {
@@ -158,7 +158,9 @@ public class State_component
     {
         String previous_keymap_name = Actions_component.setup_actions();
         m_persisted_state.setPrevious_keymap_name( previous_keymap_name );
-        System.out.println( "brief4ijidea.do_enable: Previous keymap name:" + previous_keymap_name );
+
+        System.out.println( "brief4ijidea.do_enable: Previous keymap name: " + previous_keymap_name );
+
         update_active_keystroke_map();
 
         m_keymap_manager_listener = new KeymapManagerListener()

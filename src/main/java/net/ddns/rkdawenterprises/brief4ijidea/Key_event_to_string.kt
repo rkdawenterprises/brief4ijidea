@@ -135,37 +135,42 @@ class Key_event_to_string
             for(action_ID in action_IDs)
             {
                 val shortcuts = k.getShortcuts(action_ID);
-                for(shortcut in shortcuts)
+                if(shortcuts.isNotEmpty())
                 {
-                    if(shortcut.isKeyboard)
+                    for(shortcut in shortcuts)
                     {
-                        val shortcut_string = (shortcut as KeyboardShortcut).to_string();
-                        @NonNls
-                        val search_string1 = "{\"K1\":[";
-                        @NonNls
-                        val search_string2 = "],\"K2\":[";
-                        val start_index1 = shortcut_string.indexOf(search_string1) + search_string1.length;
-                        val start_index2 = shortcut_string.indexOf(search_string2);
-                        val end_index1 = if(start_index2 != -1) start_index2 else (shortcut_string.length - 2);
-                        val end_index2 = shortcut_string.length - 2;
-
-                        val key1 = shortcut_string.substring(start_index1, end_index1).
-                            replace("\"","").
-                        replace(key_pressed_tag_2, "").
-                        replace(key_released_tag_2, "");
-
-                        var key2: String? = null;
-                        if(start_index2 != -1)
+                        if((shortcut.isKeyboard) && (shortcut is KeyboardShortcut))
                         {
-                            key2 = shortcut_string.substring(start_index2 + search_string2.length, end_index2).
-                            replace("\"","").
-                            replace(key_pressed_tag_2, "").
-                            replace(key_released_tag_2, "");
+                            val shortcut_string = shortcut.to_string();
+                            @NonNls
+                            val search_string1 = "{\"K1\":[";
+                            @NonNls
+                            val search_string2 = "],\"K2\":[";
+                            val start_index1 = shortcut_string.indexOf(search_string1) + search_string1.length;
+                            val start_index2 = shortcut_string.indexOf(search_string2);
+                            val end_index1 = if(start_index2 != -1) start_index2 else (shortcut_string.length - 2);
+                            val end_index2 = shortcut_string.length - 2;
+
+                            val key1 = shortcut_string.substring(start_index1,
+                                                                 end_index1).replace("\"",
+                                                                                     "").replace(key_pressed_tag_2,
+                                                                                                 "").replace(key_released_tag_2,
+                                                                                                             "");
+
+                            var key2: String? = null;
+                            if(start_index2 != -1)
+                            {
+                                key2 = shortcut_string.substring(start_index2 + search_string2.length,
+                                                                 end_index2).replace("\"",
+                                                                                     "").replace(key_pressed_tag_2,
+                                                                                                 "").replace(key_released_tag_2,
+                                                                                                             "");
+                            }
+
+                            map[key1] = Key_action(action_ID,
+                                                   key2);
+
                         }
-
-                        map[key1] = Key_action(action_ID,
-                                               key2);
-
                     }
                 }
             }

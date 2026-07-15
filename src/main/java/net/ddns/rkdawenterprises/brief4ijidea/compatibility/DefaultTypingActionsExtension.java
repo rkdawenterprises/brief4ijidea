@@ -86,7 +86,7 @@ public class DefaultTypingActionsExtension implements TypingActionsExtension {
           if (injectedPsiFile == null || CodeFormatterFacade.shouldDelegateToTopLevel(injectedPsiFile)) {
             continue;
           }
-          // TODO: Deprecated...
+          // TODO: Deprecated. Supposed to use "InjectedLanguageManager", but don't know how.
           @SuppressWarnings("deprecation")
           Editor injectedEditor = InjectedLanguageUtil.getInjectedEditorForInjectedFile(editor, injectedPsiFile);
           int injectedStartOffset = max(0, injectedDocument.hostToInjected(startOffset));
