@@ -356,7 +356,7 @@
   </action>
 
   <!--  Command: Quick window switch. Description: Changes windows according to the arrow key that points to the window. -->
-    <!-- Current "alt LEFT" and "alt RIGHT" currently changes editor windows. PGE... -->
+    <!-- Standard mapping "alt LEFT" and "alt RIGHT" currently changes editor windows. So PGE... -->
 
   <!-- Search and translate -->
       <!-- TODO: Investigate LOE to implement original Brief search and translate. Currently just opens the existing dialog. -->

@@ -27,6 +27,7 @@ package net.ddns.rkdawenterprises.brief4ijidea.actions
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import net.ddns.rkdawenterprises.brief4ijidea.Miscellaneous.do_action
+import net.ddns.rkdawenterprises.brief4ijidea.State_component
 import net.ddns.rkdawenterprises.brief4ijidea.stop_all_marking_modes
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -49,10 +50,17 @@ class Paste_from_history_action(text: String?,
         val editor = e.getData(CommonDataKeys.EDITOR) ?: return
 
         dialog_is_open.set(true);
+
+        val state_component: State_component = State_component.get_instance();
+        state_component.clear_paste_using_system();
+
         do_action("PasteMultiple",
-                  e)
+                  e);
+
+        state_component.set_paste_using_system();
+
         dialog_is_open.set(false);
-        
+
         stop_all_marking_modes(editor,
                                false)
     }

@@ -14,8 +14,18 @@ import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.impl.UndoManagerImpl;
 import com.intellij.openapi.command.undo.UndoManager;
-import com.intellij.openapi.editor.*;
+import com.intellij.openapi.editor.Caret;
+import com.intellij.openapi.editor.CaretModel;
+import com.intellij.openapi.editor.CaretState;
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorCopyPasteHelper.CopyPasteOptions;
+import com.intellij.openapi.editor.EditorModificationUtil;
+import com.intellij.openapi.editor.RangeMarker;
+import com.intellij.openapi.editor.RawText;
+import com.intellij.openapi.editor.ReadOnlyFragmentModificationException;
+import com.intellij.openapi.editor.ScrollType;
+import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.editor.actionSystem.EditorActionManager;
 import com.intellij.openapi.editor.actionSystem.EditorTextInsertHandler;
@@ -49,7 +59,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static com.intellij.openapi.editor.impl.CopiedFromEmptySelectionPasteMode.*;
+import static com.intellij.openapi.editor.impl.CopiedFromEmptySelectionPasteMode.AT_CARET;
+import static com.intellij.openapi.editor.impl.CopiedFromEmptySelectionPasteMode.ENTIRE_LINE_ABOVE_CARET;
+import static com.intellij.openapi.editor.impl.CopiedFromEmptySelectionPasteMode.TRIM_IF_MIDDLE_LINE;
 import static com.intellij.openapi.editor.impl.EditorCopyPasteHelperImpl.getCopiedFromEmptySelectionPasteMode;
 
 public class PasteHandler extends EditorActionHandler implements EditorTextInsertHandler
@@ -74,7 +86,7 @@ public class PasteHandler extends EditorActionHandler implements EditorTextInser
                  null );
     }
 
-    private static Transferable getContentsToPasteToEditor( @Nullable Producer<? extends Transferable> producer )
+    static Transferable getContentsToPasteToEditor( @Nullable Producer<? extends Transferable> producer )
     {
         if( producer == null )
         {
@@ -181,7 +193,7 @@ public class PasteHandler extends EditorActionHandler implements EditorTextInser
         }
     }
 
-    private static final class ProcessorAndData<Data extends TextBlockTransferableData>
+    static final class ProcessorAndData<Data extends TextBlockTransferableData>
     {
         final CopyPastePostProcessor<Data> processor;
         final @NotNull List<? extends Data> data;
@@ -266,6 +278,11 @@ public class PasteHandler extends EditorActionHandler implements EditorTextInser
                 allValues.addAll( data.data );
             }
         }
+
+// TODO:        for( ProcessorAndData<?> data: extraData )
+//        {
+//            System.out.println( ">>> " + data.processor.getClass().getSimpleName() );
+//        }
 
         text = TextBlockTransferable.convertLineSeparators( editor,
                                                             text,
@@ -367,6 +384,7 @@ public class PasteHandler extends EditorActionHandler implements EditorTextInser
                                                                      _text,
                                                                      pasteMode == TRIM_IF_MIDDLE_LINE );
         } );
+
         final RangeMarker bounds = document.createRangeMarker( pastedRange );
 
         // `skipIndentation` is additionally used as marker for changed pasted test
@@ -375,6 +393,11 @@ public class PasteHandler extends EditorActionHandler implements EditorTextInser
         final Ref<Boolean> skipIndentation = new Ref<>( pastedTextWasChanged ? Boolean.FALSE: null );
         for( ProcessorAndData<?> data: extraData )
         {
+// TODO:            System.out.println(">>> " + data.processor.getClass().getSimpleName());
+            if(data.processor.getClass().getSimpleName().equals( "ConvertTextJavaCopyPasteProcessor" )
+                || data.processor.getClass().getSimpleName().equals( "JavaCopyPasteReferenceProcessor" )
+                    || data.processor.getClass().getSimpleName().equals( "ConvertJavaCopyPasteProcessor" ) ) continue;
+
             data.process( project,
                           editor,
                           bounds,

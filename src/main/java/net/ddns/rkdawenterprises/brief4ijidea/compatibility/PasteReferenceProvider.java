@@ -4,7 +4,6 @@
 package net.ddns.rkdawenterprises.brief4ijidea.compatibility;
 
 import com.intellij.codeInsight.FileModificationService;
-import com.intellij.ide.IdeBundle;
 import com.intellij.ide.PasteProvider;
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
@@ -79,9 +78,19 @@ public final class PasteReferenceProvider implements PasteProvider
     {
         final Project project = CommonDataKeys.PROJECT.getData( dataContext );
         final Editor editor = CommonDataKeys.EDITOR.getData( dataContext );
-        return project != null && editor != null && getCopiedFqn( dataContext ) != null;
+        return ( ( project != null ) && ( editor != null ) && ( getCopiedFqn( dataContext ) != null ) );
     }
 
+    /**
+     * Only use our paste provider for specific cases as follows.
+     * 1) The clipboard contains full line(s) (content ends in a line termination),
+     * there's no current selection, and the settings set to "paste lines at home".
+     * or
+     * 2) The clipboard contains column mode content.
+     * and
+     * 3) The paste was initiated using our Brief Emulator key-mapping actions. This is done
+     * so there is an easy way to use the built-in past handler since this one doesn't do J2K.
+     */
     @Override
     public boolean isPasteEnabled( @NotNull DataContext dataContext )
     {
@@ -89,6 +98,7 @@ public final class PasteReferenceProvider implements PasteProvider
         String fqn = getCopiedFqn( dataContext );
         final @Nullable Editor editor = CommonDataKeys.EDITOR.getData( dataContext );
         final @Nullable PsiFile file = CommonDataKeys.PSI_FILE.getData( dataContext );
+        boolean is_paste_enabled = false;
         if( ( project != null ) && ( editor != null ) && ( fqn != null ) && ( file != null ) && !file.getFileType().isBinary() )
         {
             boolean paste_lines_at_home = State_component.get_instance().get_paste_lines_at_home();
@@ -96,10 +106,13 @@ public final class PasteReferenceProvider implements PasteProvider
             boolean ends_with_line_end = fqn.endsWith( "\n" ) || fqn.endsWith( "\r" ) || fqn.endsWith( "\r\n" ) || fqn.endsWith( "\n\r" );
             boolean is_qualified_line = paste_lines_at_home && !has_selection && ends_with_line_end;
             boolean is_column_mode_item = fqn.contains( Column_marking_component.Column_mode_block_transferable.get_mime_type() );
-            return ( is_qualified_line || is_column_mode_item );
+            is_paste_enabled = ( is_qualified_line || is_column_mode_item )
+                && !State_component.get_instance().get_paste_using_system();
         }
 
-        return false;
+        System.out.println(">>> is_paste_enabled = " + is_paste_enabled);
+
+        return is_paste_enabled;
 //    return project != null && fqn != null && QualifiedNameProviderUtil.qualifiedNameToElement( fqn, project) != null;
     }
 

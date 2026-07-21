@@ -2,6 +2,10 @@
 
 # Brief Editor Emulator for IntelliJ IDEA
 
+## [1.2.4] - 2026-07-21
+### Fixed
+- Error when using J2K with the custom paste handler. Now the inline J2K is disabled in the custom handler, but it still can be invoked with the IDE built-in handler using (Ctrl+V, or Ctrl+Shft+V), which will prompt for J2K.
+
 ## [1.2.3] - 2026-07-15
 ### Fixed
 - Reworked status bar messages to get it functional again.

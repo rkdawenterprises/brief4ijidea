@@ -14,7 +14,18 @@
  * limitations under the License.
  */
 
-@file:Suppress("ClassName")
+@file:Suppress("FunctionName",
+               "LocalVariableName",
+               "PrivatePropertyName",
+               "HardCodedStringLiteral",
+               "unused",
+               "RedundantSemicolon",
+               "UsePropertyAccessSyntax",
+               "KDocUnresolvedReference",
+               "ClassName",
+               "FunctionName",
+               "PropertyName",
+               "PackageName")
 
 package net.ddns.rkdawenterprises.brief4ijidea
 

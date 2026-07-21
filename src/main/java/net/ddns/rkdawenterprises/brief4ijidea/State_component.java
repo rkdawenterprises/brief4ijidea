@@ -17,9 +17,6 @@
 
 package net.ddns.rkdawenterprises.brief4ijidea;
 
-import com.intellij.ide.plugins.IdeaPluginDescriptor;
-import com.intellij.ide.plugins.PluginManager;
-import com.intellij.ide.plugins.PluginManagerCore;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;
@@ -29,7 +26,6 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.ex.EditorEventMulticasterEx;
 import com.intellij.openapi.editor.ex.FocusChangeListener;
-import com.intellij.openapi.extensions.PluginDescriptor;
 import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.keymap.Keymap;
 import com.intellij.openapi.keymap.KeymapManagerListener;
@@ -65,6 +61,23 @@ import static net.ddns.rkdawenterprises.brief4ijidea.MiscellaneousKt.editor_lost
 public class State_component
         implements PersistentStateComponent<Persisted_state>, Disposable
 {
+    public boolean get_paste_using_system()
+    {
+        return m_paste_using_system;
+    }
+
+    public void set_paste_using_system()
+    {
+        m_paste_using_system = true;
+    }
+
+    public void clear_paste_using_system()
+    {
+        m_paste_using_system = false;
+    }
+
+    public boolean m_paste_using_system = true;
+
     /**
      * Usually not invoked directly, see class javadoc.
      */
@@ -205,12 +218,14 @@ public class State_component
                                                                                                           @Override
                                                                                                           public void focusGained( @NotNull Editor editor )
                                                                                                           {
+                                                                                                              set_paste_using_system();
                                                                                                               editor_gained_focus( editor );
                                                                                                           }
 
                                                                                                           @Override
                                                                                                           public void focusLost( @NotNull Editor editor )
                                                                                                           {
+                                                                                                              set_paste_using_system();
                                                                                                               editor_lost_focus( editor );
                                                                                                           }
                                                                                                       },

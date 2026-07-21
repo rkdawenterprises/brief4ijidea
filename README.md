@@ -132,6 +132,9 @@ mode as a result of a keystroke.</li>
 type in the clipboard. Brief's column selection and paste is unique, and superior to most implementations, IMHO. The paste
 relocates the cursor such that using the single key INS allows you to paste from the top to the bottom of the document
 by holding down the key.</li>
+<li>To use the custom paste handler (supporting column mode) you must use the Brief Emulator key mapping actions. Otherwise
+the built-in handler will be used. Since the built-in handler does not do Java to Kotlin conversion, this is an easy way to
+use the built-in handler (Ctrl + V)</li>
 </ul>
 </div>
 </div>

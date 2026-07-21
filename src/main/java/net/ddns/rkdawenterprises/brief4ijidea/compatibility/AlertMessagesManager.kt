@@ -1,3 +1,4 @@
+// intellij-community/platform/platform-impl/src/com/intellij/ui/messages/AlertMessagesManager.kt
 // Copyright 2000-2022 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license.
 //package com.intellij.ui.messages
 package net.ddns.rkdawenterprises.brief4ijidea.compatibility;
@@ -123,8 +124,8 @@ private const val PARENT_WIDTH_KEY = "parent.width"
 //@ApiStatus.Internal
 class AlertDialog(project: Project?,
                   parentComponent: Component?,
-                  @NlsContexts.DialogMessage val myMessage: String?,
-                  @NlsContexts.DialogTitle val myTitle: String?,
+                  val myMessage: String?,
+                  val myTitle: String?,
                   val myOptions: Array<String>,
                   val myDefaultOptionIndex: Int,
                   val myFocusedOptionIndex: Int,
@@ -309,6 +310,7 @@ class AlertDialog(project: Project?,
       myParent!!.add(component, 0)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun addLayoutComponent(name: String?, comp: Component) {
       if (myParent == null) {
         myParent = comp.parent
@@ -469,7 +471,7 @@ class AlertDialog(project: Project?,
     }
   }
 
-  private fun createTextComponent(component: JEditorPane, message: @Nls String?): JEditorPane {
+  private fun createTextComponent(component: JEditorPane, message: String?): JEditorPane {
     component.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, java.lang.Boolean.TRUE)
     component.contentType = "text/html"
     component.isEditable = false

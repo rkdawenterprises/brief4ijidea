@@ -31,20 +31,21 @@ dependencies {
     // IntelliJ Platform Gradle Plugin Dependencies Extension - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html
     intellijPlatform {
         // IntelliJ IDEA versions -> https://www.jetbrains.com/idea/download/other.html
-        // TODO: 262 EAP environment.
-//        intellijIdea("262-EAP-SNAPSHOT") {
-//            useInstaller = false; // Required to resolve EAP snapshot versions
-//        }
+        // 262
+        intellijIdea("2026.2")
         // 261
-        intellijIdea("2026.1.4")
+//        intellijIdea("2026.1.4")
         // 253
 //        intellijIdea("2025.3.6")
         // 252
 //        intellijIdea("2025.2.6.2")
 
-        // TODO: Mandatory additions for EAP testing environments
-//        jetbrainsRuntime() // Manual JBR inclusion since useInstaller is false
-//        testFramework(TestFrameworkType.Platform) // Standard test framework injection
+        // TODO: For EAP testing environments.
+//        intellijIdea("262-EAP-SNAPSHOT") {
+//            useInstaller = false; // Required to resolve EAP snapshot versions.
+//        }
+//        jetbrainsRuntime() // Manual JBR inclusion since useInstaller is false.
+//        testFramework(TestFrameworkType.Platform) // Standard test framework injection.
     }
 }
 

@@ -235,6 +235,7 @@ fun virtual_space_setting_warning(project: Project,
                     val exit_code = warning_dialog_builder.guess_window_and_ask();
                     if(exit_code == 0)
                     {
+                        // Try to show the applicable setting. Unfortunately, it's not very reliable.
                         ShowSettingsUtilImpl.showSettingsDialog(project, "preferences.editor.general",
                                                                 ApplicationBundle.message("checkbox.allow.placement.of.caret.after.end.of.line"));
                     }

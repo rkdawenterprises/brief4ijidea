@@ -26,7 +26,6 @@ package net.ddns.rkdawenterprises.brief4ijidea
 
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.components.service
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -42,8 +41,6 @@ class Status_bar_messages_timer(private val project: Project,
     {
         val MESSAGE_PERSISTENT_DURATION: Duration = Duration.ofMinutes(5);
         val MESSAGE_TEMPORARY_DURATION: Duration = Duration.ofSeconds(10);
-
-        fun getInstance(project: Project): Status_bar_messages_timer = project.service();
     }
 
     var running_job: Job? = null;

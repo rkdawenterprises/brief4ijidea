@@ -19,6 +19,7 @@ package net.ddns.rkdawenterprises.brief4ijidea.actions;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
+import net.ddns.rkdawenterprises.brief4ijidea.State_component;
 import org.jetbrains.annotations.NotNull;
 
 import static net.ddns.rkdawenterprises.brief4ijidea.Miscellaneous.do_action;
@@ -43,7 +44,12 @@ public class Paste_from_scrap_action
     @Override
     public void actionPerformed( @NotNull AnActionEvent e )
     {
+        State_component state_component = State_component.get_instance();
+        state_component.clear_paste_using_system();
+
         do_action( "EditorPaste", e );
+
+        state_component.set_paste_using_system();
 
         Editor editor = e.getData( CommonDataKeys.EDITOR );
         if( editor == null ) return;

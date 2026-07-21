@@ -43,6 +43,8 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
 @SuppressWarnings("JavadocReference")
@@ -115,6 +117,12 @@ public class Status_bar_icon_factory
     @Override
     public @NotNull StatusBarWidget createWidget( @NotNull Project project )
     {
+        // For some reason, the icon is not always the proper enabled state (stays gray), so wait a bit and update.
+        Timer timer = new Timer( 5000,
+                                 evt -> update_widget() );
+        timer.setRepeats(false);
+        timer.start();
+
         return new Status_bar_widget( project );
     }
 
